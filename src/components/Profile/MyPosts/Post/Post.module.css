@@ -1,0 +1,11 @@
+.post {
+    margin-bottom: 15px;
+}
+
+.post img {
+    width: 40px;
+}
+
+.likePost {
+    cursor: pointer;
+}
