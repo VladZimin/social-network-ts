@@ -1,11 +1,13 @@
 import React from 'react'
 
+import s from './Profile.module.css'
+import profileImg from '../../assets/profileImg.jpeg'
+
 const Profile = () => {
   return <>
-    <div className='content'>
-      <div>
-        <img src='http://severnykavkaz.ru/wp-content/uploads/2019/04/priroda-adygei-1200x540.jpg'
-             alt='Profile Image' />
+    <div className={s.content}>
+      <div className={s.profileImg}>
+        <img src={profileImg} alt='Profile Image' />
       </div>
       <div>
         ava + description

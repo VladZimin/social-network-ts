@@ -12,24 +12,3 @@
     grid-template-columns: 2fr 10fr;
     grid-gap: 10px;
 }
-
-.header {
-    grid-area: h;
-    padding: 5px;
-    background: rgba(117, 149, 231, 0.76);
-}
-
-.header img {
-    width: 50px;
-}
-
-.nav {
-    grid-area: n;
-    background: rgba(42, 248, 162, 0.6);
-}
-
-.content {
-    grid-area: c;
-    background: rgba(245, 239, 110, 0.88);
-}
-
