@@ -14,10 +14,8 @@ const MyPosts = () => {
         <button>отправить</button>
       </div>
       <div className={s.allPosts}>
-        <Post />
-        <Post />
-        <Post />
-        <Post />
+        <Post message='Привет!' likesCount={23} />
+        <Post message='Как дела?' likesCount={77} />
       </div>
     </div>
   </>
