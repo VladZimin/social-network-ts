@@ -4,7 +4,7 @@ import s from './Navbar.module.css'
 import { NavLink } from 'react-router-dom'
 
 const navList = [ 'Profile', 'Messages', 'News', 'Music', 'Settings' ]
-type isActiveNavType = {
+export type activeNavLinkType = {
     isActive: boolean
 }
 
@@ -18,7 +18,7 @@ const Navbar = () => {
             key={i}
             to={item.toLowerCase()}
             className={s.navbarItem}
-            style={( { isActive }: isActiveNavType ) => isActive ? activeNav : {}}
+            style={( { isActive }: activeNavLinkType ) => isActive ? activeNav : {}}
         >
             {item}
         </NavLink>) )}
