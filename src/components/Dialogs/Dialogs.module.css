@@ -1,0 +1,29 @@
+.dialogsWrapper {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.dialogsList {
+
+}
+
+.dialogsList .userItem {
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.dialogsList .activeDialog {
+    font-size: 22px;
+    color: rgba(117, 149, 231, 0.91)
+}
+
+.messageBlock {
+
+}
+
+.messageBlock .messageItem {
+    font-weight: 500;
+    font-size: 18px;
+}
