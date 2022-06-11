@@ -7,9 +7,12 @@ import Post from './Post'
 const MyPosts = () => {
     return <>
         <div className={s.postsBlock}>
-            My Posts
+            <h3>
+                My Posts
+            </h3>
             <div>
                 <textarea/>
+                <br/>
                 <button>отправить</button>
             </div>
             <div className={s.allPosts}>

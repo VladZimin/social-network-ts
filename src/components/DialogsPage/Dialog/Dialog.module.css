@@ -1,0 +1,8 @@
+.userItem {
+    text-decoration: none;
+    color: rgb(39, 224, 146);
+    font-weight: 500;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}

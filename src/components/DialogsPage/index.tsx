@@ -1,6 +1,7 @@
 import React from 'react'
 import s from './Dialogs.module.css'
 import Dialog from './Dialog'
+import Message from './Message'
 
 const usersList = [
     { id: 1, name: 'Ivan' },
@@ -17,9 +18,10 @@ const DialogsPage = () => {
             {usersList.map( ( userObj, i ) => <Dialog key={i} {...userObj}/> )}
         </div>
         <div className={s.messageBlock}>
-            <div className={s.messageItem}>Hello !</div>
-            <div className={s.messageItem}>How are you!</div>
-            <div className={s.messageItem}>Fine!</div>
+            <Message message={'Hello'}/>
+            <Message message={'How are you?'}/>
+            <Message message={'Fine! U?'}/>
+            <Message message={'Good!'}/>
         </div>
     </div>
 }

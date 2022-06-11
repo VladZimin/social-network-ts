@@ -2,6 +2,10 @@
     margin-top: 20px;
 }
 
+.postsBlock h3 {
+    margin-bottom: 15px;
+}
+
 .allPosts {
     margin: 15px 0;
 }
