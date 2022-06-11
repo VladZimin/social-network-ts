@@ -3,8 +3,8 @@ import './App.css'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
 import Profile from './components/Profile'
-import Dialogs from './components/Dialogs'
 import { Route, Routes } from 'react-router-dom'
+import DialogsPage from './components/DialogsPage'
 
 function App() {
     return (
@@ -14,7 +14,7 @@ function App() {
             <div className="app-content">
                 <Routes>
                     <Route path="profile" element={<Profile/>}/>
-                    <Route path="messages/*" element={<Dialogs/>}/>
+                    <Route path="messages/*" element={<DialogsPage/>}/>
                 </Routes>
             </div>
         </div>
