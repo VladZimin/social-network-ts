@@ -11,6 +11,14 @@ const MyPosts = () => {
     { id: 3, postText: "Its OK!!", likesCount: 68 },
   ];
 
+  const postsList = postsData.map((postObj) => (
+    <Post
+      key={postObj.id}
+      postText={postObj.postText}
+      likesCount={postObj.likesCount}
+    />
+  ));
+
   return (
     <>
       <div className={s.postsBlock}>
@@ -20,15 +28,7 @@ const MyPosts = () => {
           <br />
           <button>отправить</button>
         </div>
-        <div className={s.allPosts}>
-          {postsData.map((postObj) => (
-            <Post
-              key={postObj.id}
-              postText={postObj.postText}
-              likesCount={postObj.likesCount}
-            />
-          ))}
-        </div>
+        <div className={s.allPosts}>{postsList}</div>
       </div>
     </>
   );

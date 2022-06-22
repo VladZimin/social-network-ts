@@ -19,19 +19,19 @@ const messagesData = [
   { id: 4, message: "Good!" },
 ];
 
+const dialogsList = dialogsData.map((userObj, i) => (
+  <Dialog key={i} {...userObj} />
+));
+
+const messagesList = messagesData.map((messageObj) => (
+  <Message key={messageObj.id} message={messageObj.message} />
+));
+
 const DialogsPage = () => {
   return (
     <div className={s.dialogsWrapper}>
-      <div className={s.dialogsList}>
-        {dialogsData.map((userObj, i) => (
-          <Dialog key={i} {...userObj} />
-        ))}
-      </div>
-      <div className={s.messageBlock}>
-        {messagesData.map((messageObj) => (
-          <Message key={messageObj.id} message={messageObj.message} />
-        ))}
-      </div>
+      <div className={s.dialogsList}>{dialogsList}</div>
+      <div className={s.messageBlock}>{messagesList}</div>
     </div>
   );
 };
