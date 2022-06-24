@@ -7,9 +7,10 @@ import { PostType } from "../../App";
 
 export type PostsPropsType = {
   postsData: Array<PostType>;
+  addPost: (value: string) => void;
 };
 
-const Profile: React.FC<PostsPropsType> = ({ postsData }) => {
+const Profile: React.FC<PostsPropsType> = ({ postsData, addPost }) => {
   return (
     <>
       <div className={s.content}>
@@ -17,7 +18,7 @@ const Profile: React.FC<PostsPropsType> = ({ postsData }) => {
           <img src={profileImg} alt="Profile Image" />
         </div>
         <div>ava + description</div>
-        <MyPosts postsData={postsData} />
+        <MyPosts postsData={postsData} addPost={addPost} />
       </div>
     </>
   );

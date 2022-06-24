@@ -19,17 +19,25 @@ export type MessageType = {
   id: number;
   message: string;
 };
-type StateType = {
-  postsData: Array<PostType>;
+
+export type DialogsPageType = {
   messagesData: Array<MessageType>;
   dialogsData: Array<DialogType>;
+};
+type ProfilePageType = {
+  postsData: Array<PostType>;
+};
+type StateType = {
+  dialogsPage: DialogsPageType;
+  profilePage: ProfilePageType;
 };
 
 type AppPropsType = {
   state: StateType;
+  addPost: (value: string) => void;
 };
 
-const App: React.FC<AppPropsType> = ({ state }) => (
+const App: React.FC<AppPropsType> = ({ state, addPost }) => (
   <div className="app-wrapper">
     <Header />
     <Navbar />
@@ -37,16 +45,16 @@ const App: React.FC<AppPropsType> = ({ state }) => (
       <Routes>
         <Route
           path="profile"
-          element={<Profile postsData={state.postsData} />}
+          element={
+            <Profile
+              postsData={state.profilePage.postsData}
+              addPost={addPost}
+            />
+          }
         />
         <Route
           path="messages/*"
-          element={
-            <DialogsPage
-              messagesData={state.messagesData}
-              dialogsData={state.dialogsData}
-            />
-          }
+          element={<DialogsPage dialogsPage={state.dialogsPage} />}
         />
       </Routes>
     </div>
