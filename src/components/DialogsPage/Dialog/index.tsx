@@ -2,13 +2,9 @@ import React from "react";
 import s from "./Dialog.module.css";
 import { NavLink } from "react-router-dom";
 import { activeNavLinkType } from "../../Navbar";
+import { DialogDataType } from "../../../store/state";
 
-type DialogsPropsType = {
-  name: string;
-  id: number;
-};
-
-const Dialog: React.FC<DialogsPropsType> = ({ name, id }) => {
+const Dialog: React.FC<DialogDataType> = ({ name, id }) => {
   const activeDialog = {
     fontSize: "22px",
     color: "rgba(117, 149, 231, 0.91)",
@@ -27,4 +23,4 @@ const Dialog: React.FC<DialogsPropsType> = ({ name, id }) => {
   );
 };
 
-export default Dialog
+export default Dialog;

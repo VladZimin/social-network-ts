@@ -2,18 +2,17 @@ import React from "react";
 import s from "./Dialogs.module.css";
 import Dialog from "./Dialog";
 import Message from "./Message";
-import { DialogsPageType } from "../../App";
+import { DialogsPageType } from "../../store/state";
 
-type DialogsPropsType = {
-  dialogsPage: DialogsPageType;
-};
-
-const DialogsPage: React.FC<DialogsPropsType> = ({ dialogsPage }) => {
-  const dialogsList = dialogsPage.dialogsData.map((userObj, i) => (
+const DialogsPage: React.FC<DialogsPageType> = ({
+  dialogsData,
+  messagesData,
+}) => {
+  const dialogsList = dialogsData.map((userObj, i) => (
     <Dialog key={i} {...userObj} />
   ));
 
-  const messagesList = dialogsPage.messagesData.map((messageObj) => (
+  const messagesList = messagesData.map((messageObj) => (
     <Message key={messageObj.id} message={messageObj.message} />
   ));
 

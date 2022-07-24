@@ -1,15 +1,8 @@
-import React from 'react'
-import s from './Message.module.css'
+import React, { FC } from "react";
+import s from "./Message.module.css";
 
-type MessagePropsType = {
-    message: string
-}
+const Message: FC<{ message: string }> = ({ message }) => {
+  return <div className={s.messageItem}>{message}</div>;
+};
 
-const Message = ( props: MessagePropsType ) => {
-    
-    return (
-        <div className={s.messageItem}>{props.message}</div>
-    )
-}
-
-export default Message
+export default Message;

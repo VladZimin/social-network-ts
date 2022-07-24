@@ -5,33 +5,7 @@ import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 import DialogsPage from "./components/DialogsPage";
-
-export type PostType = {
-  id: number;
-  postText: string;
-  likesCount: number;
-};
-export type DialogType = {
-  id: number;
-  name: string;
-};
-export type MessageType = {
-  id: number;
-  message: string;
-};
-
-export type DialogsPageType = {
-  messagesData: Array<MessageType>;
-  dialogsData: Array<DialogType>;
-};
-type ProfilePageType = {
-  postsData: Array<PostType>;
-  newPostText: string;
-};
-type StateType = {
-  dialogsPage: DialogsPageType;
-  profilePage: ProfilePageType;
-};
+import { StateType } from "./store/state";
 
 type AppPropsType = {
   state: StateType;
@@ -58,7 +32,12 @@ const App: React.FC<AppPropsType> = ({ state, addPost, updatePostText }) => (
         />
         <Route
           path="messages/*"
-          element={<DialogsPage dialogsPage={state.dialogsPage} />}
+          element={
+            <DialogsPage
+              dialogsData={state.dialogsPage.dialogsData}
+              messagesData={state.dialogsPage.messagesData}
+            />
+          }
         />
       </Routes>
     </div>
