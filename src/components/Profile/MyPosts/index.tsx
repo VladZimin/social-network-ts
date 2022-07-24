@@ -1,13 +1,14 @@
-import React, { ChangeEvent, useState } from "react";
-
+import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
-
 import Post from "./Post";
 import { PostsPropsType } from "../index";
 
-const MyPosts: React.FC<PostsPropsType> = ({ postsData, addPost }) => {
-  const [newPost, setNewPost] = useState<string>("");
-
+const MyPosts: React.FC<PostsPropsType> = ({
+  postsData,
+  addPost,
+  newPostText,
+  updatePostText,
+}) => {
   const postsList = postsData.map((postObj) => (
     <Post
       key={postObj.id}
@@ -17,11 +18,11 @@ const MyPosts: React.FC<PostsPropsType> = ({ postsData, addPost }) => {
   ));
 
   const addNewPost = () => {
-    addPost(newPost);
-    setNewPost("");
+    addPost();
+    updatePostText("");
   };
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setNewPost(e.currentTarget.value);
+    updatePostText(e.currentTarget.value);
   };
 
   return (
@@ -29,7 +30,7 @@ const MyPosts: React.FC<PostsPropsType> = ({ postsData, addPost }) => {
       <div className={s.postsBlock}>
         <h3>My Posts</h3>
         <div>
-          <textarea onChange={onChangeHandler} value={newPost} />
+          <textarea onChange={onChangeHandler} value={newPostText} />
           <br />
           <button onClick={addNewPost}>отправить</button>
         </div>

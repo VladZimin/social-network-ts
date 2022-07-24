@@ -27,19 +27,27 @@ const state = {
       { id: 2, postText: "Как дела?", likesCount: 77 },
       { id: 3, postText: "Its OK!!", likesCount: 68 },
     ],
+    newPostText: "",
   },
 };
 
-const addPost = (value: string) => {
-  const newPostMessage = { id: 4, postText: value, likesCount: 98 };
+const addPost = () => {
+  const newPostMessage = {
+    id: 4,
+    postText: state.profilePage.newPostText,
+    likesCount: 98,
+  };
   state.profilePage.postsData.push(newPostMessage);
   rerenderEntireTree();
 };
-
+const updatePostText = (newText: string) => {
+  state.profilePage.newPostText = newText;
+  rerenderEntireTree();
+};
 const rerenderEntireTree = () => {
   ReactDOM.render(
     <BrowserRouter>
-      <App state={state} addPost={addPost} />
+      <App state={state} addPost={addPost} updatePostText={updatePostText} />
     </BrowserRouter>,
     document.getElementById("root")
   );

@@ -26,6 +26,7 @@ export type DialogsPageType = {
 };
 type ProfilePageType = {
   postsData: Array<PostType>;
+  newPostText: string;
 };
 type StateType = {
   dialogsPage: DialogsPageType;
@@ -34,10 +35,11 @@ type StateType = {
 
 type AppPropsType = {
   state: StateType;
-  addPost: (value: string) => void;
+  addPost: () => void;
+  updatePostText: (newText: string) => void;
 };
 
-const App: React.FC<AppPropsType> = ({ state, addPost }) => (
+const App: React.FC<AppPropsType> = ({ state, addPost, updatePostText }) => (
   <div className="app-wrapper">
     <Header />
     <Navbar />
@@ -48,7 +50,9 @@ const App: React.FC<AppPropsType> = ({ state, addPost }) => (
           element={
             <Profile
               postsData={state.profilePage.postsData}
+              newPostText={state.profilePage.newPostText}
               addPost={addPost}
+              updatePostText={updatePostText}
             />
           }
         />
