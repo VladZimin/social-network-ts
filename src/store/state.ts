@@ -24,49 +24,61 @@ export type StateType = {
   profilePage: ProfilePageType;
 };
 
-export const state: StateType = {
-  dialogsPage: {
-    messagesData: [
-      { id: 1, message: "Hello" },
-      { id: 2, message: "How are you?" },
-      { id: 3, message: "Fine! U?" },
-      { id: 4, message: "Good!" },
-    ],
-    dialogsData: [
-      { id: 1, name: "Ivan" },
-      { id: 2, name: "Vlad" },
-      { id: 3, name: "Denis" },
-      { id: 4, name: "Viktor" },
-      { id: 5, name: "Vadim" },
-      { id: 6, name: "Kolya" },
-    ],
+type StoreType = {
+  _state: StateType;
+  getState: () => StateType;
+  _callSubscriber: () => void;
+  addPost: () => void;
+  updatePostText: (newText: string) => void;
+  subscriber: (observer: () => void) => void;
+};
+export const store: StoreType = {
+  _state: {
+    dialogsPage: {
+      messagesData: [
+        { id: 1, message: "Hello" },
+        { id: 2, message: "How are you?" },
+        { id: 3, message: "Fine! U?" },
+        { id: 4, message: "Good!" },
+      ],
+      dialogsData: [
+        { id: 1, name: "Ivan" },
+        { id: 2, name: "Vlad" },
+        { id: 3, name: "Denis" },
+        { id: 4, name: "Viktor" },
+        { id: 5, name: "Vadim" },
+        { id: 6, name: "Kolya" },
+      ],
+    },
+    profilePage: {
+      postsData: [
+        { id: 1, postText: "Привет!", likesCount: 27 },
+        { id: 2, postText: "Как дела?", likesCount: 77 },
+        { id: 3, postText: "Its OK!!", likesCount: 68 },
+      ],
+      newPostText: "",
+    },
   },
-  profilePage: {
-    postsData: [
-      { id: 1, postText: "Привет!", likesCount: 27 },
-      { id: 2, postText: "Как дела?", likesCount: 77 },
-      { id: 3, postText: "Its OK!!", likesCount: 68 },
-    ],
-    newPostText: "",
+  getState() {
+    return this._state;
   },
-};
-
-let rerenderEntireTree = () => {
-  console.log("Rerender");
-};
-export const addPost = () => {
-  const newPostMessage = {
-    id: 4,
-    postText: state.profilePage.newPostText,
-    likesCount: 98,
-  };
-  state.profilePage.postsData.push(newPostMessage);
-  rerenderEntireTree();
-};
-export const updatePostText = (newText: string) => {
-  state.profilePage.newPostText = newText;
-  rerenderEntireTree();
-};
-export const subscriber = (observer: () => void) => {
-  rerenderEntireTree = observer;
+  _callSubscriber() {
+    console.log("Rerender");
+  },
+  addPost() {
+    const newPostMessage: PostDataType = {
+      id: 4,
+      postText: this._state.profilePage.newPostText,
+      likesCount: 98,
+    };
+    this._state.profilePage.postsData.push(newPostMessage);
+    this._callSubscriber();
+  },
+  updatePostText(newText: string) {
+    this._state.profilePage.newPostText = newText;
+    this._callSubscriber();
+  },
+  subscriber(observer: () => void) {
+    this._callSubscriber = observer;
+  },
 };
