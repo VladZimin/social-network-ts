@@ -5,9 +5,8 @@ import { PostsPropsType } from "../index";
 
 const MyPosts: React.FC<PostsPropsType> = ({
   postsData,
-  addPost,
   newPostText,
-  updatePostText,
+  dispatch,
 }) => {
   const postsList = postsData.map((postObj) => (
     <Post
@@ -18,11 +17,11 @@ const MyPosts: React.FC<PostsPropsType> = ({
   ));
 
   const addNewPost = () => {
-    addPost();
-    updatePostText("");
+    dispatch({ type: "ADD_POST" });
+    dispatch({ type: "UPDATE_POST_TEXT", payload: "" });
   };
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    updatePostText(e.currentTarget.value);
+    dispatch({ type: "UPDATE_POST_TEXT", payload: e.currentTarget.value });
   };
 
   return (

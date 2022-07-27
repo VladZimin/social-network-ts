@@ -3,13 +3,16 @@ import React from "react";
 import s from "./Profile.module.css";
 import profileImg from "../../assets/profileImg.jpeg";
 import MyPosts from "./MyPosts";
-import { PostDataType } from "../../store/state";
+import {
+  AddPostAction,
+  PostDataType,
+  UpdatePostTextAction,
+} from "../../store/state";
 
 export type PostsPropsType = {
   postsData: PostDataType[];
   newPostText: string;
-  addPost: () => void;
-  updatePostText: (newText: string) => void;
+  dispatch: (action: AddPostAction | UpdatePostTextAction) => void;
 };
 
 const Profile: React.FC<PostsPropsType> = ({ ...props }) => {

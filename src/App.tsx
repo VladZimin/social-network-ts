@@ -5,15 +5,14 @@ import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 import DialogsPage from "./components/DialogsPage";
-import { StateType } from "./store/state";
+import { AddPostAction, StateType, UpdatePostTextAction } from "./store/state";
 
 type AppPropsType = {
   state: StateType;
-  addPost: () => void;
-  updatePostText: (newText: string) => void;
+  dispatch: (action: AddPostAction | UpdatePostTextAction) => void;
 };
 
-const App: React.FC<AppPropsType> = ({ state, addPost, updatePostText }) => (
+const App: React.FC<AppPropsType> = ({ state, dispatch }) => (
   <div className="app-wrapper">
     <Header />
     <Navbar />
@@ -25,8 +24,7 @@ const App: React.FC<AppPropsType> = ({ state, addPost, updatePostText }) => (
             <Profile
               postsData={state.profilePage.postsData}
               newPostText={state.profilePage.newPostText}
-              addPost={addPost}
-              updatePostText={updatePostText}
+              dispatch={dispatch}
             />
           }
         />

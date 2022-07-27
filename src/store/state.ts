@@ -23,14 +23,19 @@ export type StateType = {
   dialogsPage: DialogsPageType;
   profilePage: ProfilePageType;
 };
-
+export type AddPostAction = {
+  type: "ADD_POST";
+};
+export type UpdatePostTextAction = {
+  type: "UPDATE_POST_TEXT";
+  payload: string;
+};
 type StoreType = {
   _state: StateType;
   getState: () => StateType;
   _callSubscriber: () => void;
-  addPost: () => void;
-  updatePostText: (newText: string) => void;
   subscriber: (observer: () => void) => void;
+  dispatch: (action: AddPostAction | UpdatePostTextAction) => void;
 };
 export const store: StoreType = {
   _state: {
@@ -59,26 +64,31 @@ export const store: StoreType = {
       newPostText: "",
     },
   },
-  getState() {
-    return this._state;
-  },
   _callSubscriber() {
     console.log("Rerender");
   },
-  addPost() {
-    const newPostMessage: PostDataType = {
-      id: 4,
-      postText: this._state.profilePage.newPostText,
-      likesCount: 98,
-    };
-    this._state.profilePage.postsData.push(newPostMessage);
-    this._callSubscriber();
-  },
-  updatePostText(newText: string) {
-    this._state.profilePage.newPostText = newText;
-    this._callSubscriber();
+
+  getState() {
+    return this._state;
   },
   subscriber(observer: () => void) {
     this._callSubscriber = observer;
+  },
+  dispatch(action) {
+    switch (action.type) {
+      case "ADD_POST":
+        const newPostMessage: PostDataType = {
+          id: 4,
+          postText: this._state.profilePage.newPostText,
+          likesCount: 98,
+        };
+        this._state.profilePage.postsData.push(newPostMessage);
+        this._callSubscriber();
+        break;
+      case "UPDATE_POST_TEXT":
+        this._state.profilePage.newPostText = action.payload;
+        this._callSubscriber();
+        break;
+    }
   },
 };
