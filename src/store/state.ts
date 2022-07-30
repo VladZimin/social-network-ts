@@ -23,20 +23,17 @@ export type StateType = {
   dialogsPage: DialogsPageType;
   profilePage: ProfilePageType;
 };
-export type AddPostAction = {
-  type: "ADD_POST";
-};
-export type UpdatePostTextAction = {
-  type: "UPDATE_POST_TEXT";
-  payload: string;
-};
 type StoreType = {
   _state: StateType;
   getState: () => StateType;
   _callSubscriber: () => void;
   subscriber: (observer: () => void) => void;
-  dispatch: (action: AddPostAction | UpdatePostTextAction) => void;
+  dispatch: (action: ActionsTypes) => void;
 };
+export type ActionsTypes =
+  | ReturnType<typeof addPost>
+  | ReturnType<typeof updatePostText>;
+
 export const store: StoreType = {
   _state: {
     dialogsPage: {
@@ -79,7 +76,7 @@ export const store: StoreType = {
       case "ADD_POST":
         const newPostMessage: PostDataType = {
           id: 4,
-          postText: this._state.profilePage.newPostText,
+          postText: action.payload,
           likesCount: 98,
         };
         this._state.profilePage.postsData.push(newPostMessage);
@@ -92,3 +89,14 @@ export const store: StoreType = {
     }
   },
 };
+
+export const addPost = (value: string) =>
+  ({
+    type: "ADD_POST",
+    payload: value,
+  } as const);
+export const updatePostText = (value: string) =>
+  ({
+    type: "UPDATE_POST_TEXT",
+    payload: value,
+  } as const);

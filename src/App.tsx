@@ -5,11 +5,11 @@ import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 import DialogsPage from "./components/DialogsPage";
-import { AddPostAction, StateType, UpdatePostTextAction } from "./store/state";
+import { ActionsTypes, StateType } from "./store/state";
 
 type AppPropsType = {
   state: StateType;
-  dispatch: (action: AddPostAction | UpdatePostTextAction) => void;
+  dispatch: (action: ActionsTypes) => void;
 };
 
 const App: React.FC<AppPropsType> = ({ state, dispatch }) => (

@@ -2,6 +2,7 @@ import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post";
 import { PostsPropsType } from "../index";
+import { addPost, updatePostText } from "../../../store/state";
 
 const MyPosts: React.FC<PostsPropsType> = ({
   postsData,
@@ -17,11 +18,11 @@ const MyPosts: React.FC<PostsPropsType> = ({
   ));
 
   const addNewPost = () => {
-    dispatch({ type: "ADD_POST" });
-    dispatch({ type: "UPDATE_POST_TEXT", payload: "" });
+    dispatch(addPost(newPostText));
+    dispatch(updatePostText(""));
   };
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch({ type: "UPDATE_POST_TEXT", payload: e.currentTarget.value });
+    dispatch(updatePostText(e.currentTarget.value));
   };
 
   return (
