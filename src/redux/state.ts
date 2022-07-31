@@ -1,3 +1,9 @@
+const ADD_POST = "ADD_POST";
+const UPDATE_POST_TEXT = "UPDATE_POST_TEXT";
+
+const SEND_MESSAGE = "SEND_MESSAGE";
+const UPDATE_MESSAGE_TEXT = "UPDATE_MESSAGE_TEXT";
+
 export type PostDataType = {
   id: number;
   postText: string;
@@ -18,6 +24,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
   messagesData: MessageDataType[];
   dialogsData: DialogDataType[];
+  newMessageText: string;
 };
 export type StateType = {
   dialogsPage: DialogsPageType;
@@ -30,9 +37,12 @@ type StoreType = {
   subscriber: (observer: () => void) => void;
   dispatch: (action: ActionsTypes) => void;
 };
+
 export type ActionsTypes =
   | ReturnType<typeof addPost>
-  | ReturnType<typeof updatePostText>;
+  | ReturnType<typeof updatePostText>
+  | ReturnType<typeof sendMessage>
+  | ReturnType<typeof updateMessageText>;
 
 export const store: StoreType = {
   _state: {
@@ -51,6 +61,7 @@ export const store: StoreType = {
         { id: 5, name: "Vadim" },
         { id: 6, name: "Kolya" },
       ],
+      newMessageText: "",
     },
     profilePage: {
       postsData: [
@@ -71,32 +82,53 @@ export const store: StoreType = {
   subscriber(observer: () => void) {
     this._callSubscriber = observer;
   },
-  dispatch(action) {
-    switch (action.type) {
-      case "ADD_POST":
+  dispatch({ type, payload }) {
+    switch (type) {
+      case ADD_POST:
         const newPostMessage: PostDataType = {
           id: 4,
-          postText: action.payload,
+          postText: payload,
           likesCount: 98,
         };
         this._state.profilePage.postsData.push(newPostMessage);
+        this._state.profilePage.newPostText = "";
         this._callSubscriber();
         break;
-      case "UPDATE_POST_TEXT":
-        this._state.profilePage.newPostText = action.payload;
+      case UPDATE_POST_TEXT:
+        this._state.profilePage.newPostText = payload;
+        this._callSubscriber();
+        break;
+      case SEND_MESSAGE:
+        this._state.dialogsPage.messagesData.push({ id: 5, message: payload });
+        this._state.dialogsPage.newMessageText = "";
+        this._callSubscriber();
+        break;
+      case UPDATE_MESSAGE_TEXT:
+        this._state.dialogsPage.newMessageText = payload;
         this._callSubscriber();
         break;
     }
   },
 };
 
-export const addPost = (value: string) =>
+export const addPost = (payload: string) =>
   ({
-    type: "ADD_POST",
-    payload: value,
+    type: ADD_POST,
+    payload,
   } as const);
-export const updatePostText = (value: string) =>
+export const updatePostText = (payload: string) =>
   ({
-    type: "UPDATE_POST_TEXT",
-    payload: value,
+    type: UPDATE_POST_TEXT,
+    payload,
+  } as const);
+
+export const sendMessage = (payload: string) =>
+  ({
+    type: SEND_MESSAGE,
+    payload,
+  } as const);
+export const updateMessageText = (payload: string) =>
+  ({
+    type: UPDATE_MESSAGE_TEXT,
+    payload,
   } as const);
