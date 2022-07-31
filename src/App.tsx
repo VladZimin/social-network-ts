@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
 import DialogsPage from "./components/DialogsPage";
-import { ActionsTypes, StateType } from "./store/state";
+import { ActionsTypes, StateType } from "./redux/state";
 
 type AppPropsType = {
   state: StateType;
@@ -34,6 +34,8 @@ const App: React.FC<AppPropsType> = ({ state, dispatch }) => (
             <DialogsPage
               dialogsData={state.dialogsPage.dialogsData}
               messagesData={state.dialogsPage.messagesData}
+              newMessageText={state.dialogsPage.newMessageText}
+              dispatch={dispatch}
             />
           }
         />

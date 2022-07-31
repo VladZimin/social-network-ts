@@ -3,7 +3,7 @@ import React from "react";
 import s from "./Profile.module.css";
 import profileImg from "../../assets/profileImg.jpeg";
 import MyPosts from "./MyPosts";
-import { ActionsTypes, PostDataType } from "../../store/state";
+import { ActionsTypes, PostDataType } from "../../redux/state";
 
 export type PostsPropsType = {
   postsData: PostDataType[];

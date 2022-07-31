@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post";
 import { PostsPropsType } from "../index";
-import { addPost, updatePostText } from "../../../store/state";
+import { addPost, updatePostText } from "../../../redux/state";
 
 const MyPosts: React.FC<PostsPropsType> = ({
   postsData,
@@ -19,7 +19,6 @@ const MyPosts: React.FC<PostsPropsType> = ({
 
   const addNewPost = () => {
     dispatch(addPost(newPostText));
-    dispatch(updatePostText(""));
   };
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(updatePostText(e.currentTarget.value));
