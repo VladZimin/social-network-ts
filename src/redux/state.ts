@@ -1,8 +1,5 @@
-const ADD_POST = "ADD_POST";
-const UPDATE_POST_TEXT = "UPDATE_POST_TEXT";
-
-const SEND_MESSAGE = "SEND_MESSAGE";
-const UPDATE_MESSAGE_TEXT = "UPDATE_MESSAGE_TEXT";
+import { DialogsActionsType, dialogsReducer } from "./reducers/dialogsReducer";
+import { ProfileActionsType, profileReducer } from "./reducers/profileReducer";
 
 export type PostDataType = {
   id: number;
@@ -38,11 +35,7 @@ type StoreType = {
   dispatch: (action: ActionsTypes) => void;
 };
 
-export type ActionsTypes =
-  | ReturnType<typeof addPost>
-  | ReturnType<typeof updatePostText>
-  | ReturnType<typeof sendMessage>
-  | ReturnType<typeof updateMessageText>;
+export type ActionsTypes = ProfileActionsType | DialogsActionsType;
 
 export const store: StoreType = {
   _state: {
@@ -82,53 +75,9 @@ export const store: StoreType = {
   subscriber(observer: () => void) {
     this._callSubscriber = observer;
   },
-  dispatch({ type, payload }) {
-    switch (type) {
-      case ADD_POST:
-        const newPostMessage: PostDataType = {
-          id: 4,
-          postText: payload,
-          likesCount: 98,
-        };
-        this._state.profilePage.postsData.push(newPostMessage);
-        this._state.profilePage.newPostText = "";
-        this._callSubscriber();
-        break;
-      case UPDATE_POST_TEXT:
-        this._state.profilePage.newPostText = payload;
-        this._callSubscriber();
-        break;
-      case SEND_MESSAGE:
-        this._state.dialogsPage.messagesData.push({ id: 5, message: payload });
-        this._state.dialogsPage.newMessageText = "";
-        this._callSubscriber();
-        break;
-      case UPDATE_MESSAGE_TEXT:
-        this._state.dialogsPage.newMessageText = payload;
-        this._callSubscriber();
-        break;
-    }
+  dispatch(actions) {
+    this._state.profilePage = profileReducer(this._state.profilePage, actions);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, actions);
+    this._callSubscriber();
   },
 };
-
-export const addPost = (payload: string) =>
-  ({
-    type: ADD_POST,
-    payload,
-  } as const);
-export const updatePostText = (payload: string) =>
-  ({
-    type: UPDATE_POST_TEXT,
-    payload,
-  } as const);
-
-export const sendMessage = (payload: string) =>
-  ({
-    type: SEND_MESSAGE,
-    payload,
-  } as const);
-export const updateMessageText = (payload: string) =>
-  ({
-    type: UPDATE_MESSAGE_TEXT,
-    payload,
-  } as const);

@@ -2,7 +2,10 @@ import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post";
 import { PostsPropsType } from "../index";
-import { addPost, updatePostText } from "../../../redux/state";
+import {
+  addPost,
+  updatePostText,
+} from "../../../redux/reducers/profileReducer";
 
 const MyPosts: React.FC<PostsPropsType> = ({
   postsData,

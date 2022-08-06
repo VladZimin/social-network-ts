@@ -2,15 +2,15 @@ import React, { ChangeEvent } from "react";
 import s from "./Dialogs.module.css";
 import Dialog from "./Dialog";
 import Message from "./Message";
+import { DialogsPageType } from "../../redux/state";
 import {
-  ActionsTypes,
-  DialogsPageType,
+  DialogsActionsType,
   sendMessage,
   updateMessageText,
-} from "../../redux/state";
+} from "../../redux/reducers/dialogsReducer";
 
 type PropsType = DialogsPageType & {
-  dispatch: (action: ActionsTypes) => void;
+  dispatch: (action: DialogsActionsType) => void;
 };
 
 const DialogsPage: React.FC<PropsType> = ({
