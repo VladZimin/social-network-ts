@@ -7,8 +7,17 @@ export type ProfileActionsType =
   | ReturnType<typeof addPost>
   | ReturnType<typeof updatePostText>;
 
+const initialState = {
+  postsData: [
+    { id: 1, postText: "Привет!", likesCount: 27 },
+    { id: 2, postText: "Как дела?", likesCount: 77 },
+    { id: 3, postText: "Its OK!!", likesCount: 68 },
+  ],
+  newPostText: "",
+};
+
 export const profileReducer = (
-  state: ProfilePageType,
+  state: ProfilePageType = initialState,
   { type, payload }: ActionsTypes
 ) => {
   switch (type) {
