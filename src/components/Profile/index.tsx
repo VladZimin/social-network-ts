@@ -2,17 +2,9 @@ import React from "react";
 
 import s from "./Profile.module.css";
 import profileImg from "../../assets/profileImg.jpeg";
-import MyPosts from "./MyPosts";
-import { PostDataType } from "../../redux/state";
-import { ProfileActionsType } from "../../redux/reducers/profileReducer";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
-export type PostsPropsType = {
-  postsData: PostDataType[];
-  newPostText: string;
-  dispatch: (action: ProfileActionsType) => void;
-};
-
-const Profile: React.FC<PostsPropsType> = ({ ...props }) => {
+const Profile = () => {
   return (
     <>
       <div className={s.content}>
@@ -20,7 +12,7 @@ const Profile: React.FC<PostsPropsType> = ({ ...props }) => {
           <img src={profileImg} alt="Profile Image" />
         </div>
         <div>ava + description</div>
-        <MyPosts {...props} />
+        <MyPostsContainer />
       </div>
     </>
   );

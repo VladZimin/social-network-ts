@@ -1,16 +1,20 @@
 import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post";
-import { PostsPropsType } from "../index";
-import {
-  addPost,
-  updatePostText,
-} from "../../../redux/reducers/profileReducer";
+import { PostDataType } from "../../../redux/state";
+
+export type PostsPropsType = {
+  postsData: PostDataType[];
+  newPostText: string;
+  addPost: (postText: string) => void;
+  changePostText: (newText: string) => void;
+};
 
 const MyPosts: React.FC<PostsPropsType> = ({
   postsData,
   newPostText,
-  dispatch,
+  changePostText,
+  addPost,
 }) => {
   const postsList = postsData.map((postObj) => (
     <Post
@@ -21,10 +25,10 @@ const MyPosts: React.FC<PostsPropsType> = ({
   ));
 
   const addNewPost = () => {
-    dispatch(addPost(newPostText));
+    addPost(newPostText);
   };
   const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch(updatePostText(e.currentTarget.value));
+    changePostText(e.currentTarget.value);
   };
 
   return (
