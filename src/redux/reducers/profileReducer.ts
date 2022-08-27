@@ -1,4 +1,4 @@
-import { ActionsTypes, PostDataType, ProfilePageType } from "../state";
+import { PostDataType, ProfilePageType } from "../state";
 
 const ADD_POST = "ADD_POST";
 const UPDATE_POST_TEXT = "UPDATE_POST_TEXT";
@@ -18,30 +18,31 @@ const initialState = {
 
 export const profileReducer = (
   state: ProfilePageType = initialState,
-  { type, payload }: ActionsTypes
+  action: ProfileActionsType
 ) => {
-  switch (type) {
+  switch (action.type) {
     case ADD_POST:
       const newPostMessage: PostDataType = {
         id: 4,
-        postText: payload,
+        postText: state.newPostText,
         likesCount: 98,
       };
-      state.postsData.push(newPostMessage);
-      state.newPostText = "";
-      return state;
+      const newState: ProfilePageType = {
+        ...state,
+        postsData: [...state.postsData, newPostMessage],
+        newPostText: "",
+      };
+      return newState;
     case UPDATE_POST_TEXT:
-      state.newPostText = payload;
-      return state;
+      return { ...state, newPostText: action.payload };
     default:
       return state;
   }
 };
 
-export const addPost = (payload: string) =>
+export const addPost = () =>
   ({
     type: ADD_POST,
-    payload,
   } as const);
 export const updatePostText = (payload: string) =>
   ({

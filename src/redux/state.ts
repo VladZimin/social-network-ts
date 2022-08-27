@@ -1,5 +1,5 @@
-import { DialogsActionsType, dialogsReducer } from "./reducers/dialogsReducer";
-import { ProfileActionsType, profileReducer } from "./reducers/profileReducer";
+import { DialogsActionsType } from "./reducers/dialogsReducer";
+import { ProfileActionsType } from "./reducers/profileReducer";
 
 export type PostDataType = {
   id: number;
@@ -37,6 +37,7 @@ export type StoreType = {
 
 export type ActionsTypes = ProfileActionsType | DialogsActionsType;
 
+/*
 export const store: StoreType = {
   _state: {
     dialogsPage: {
@@ -81,3 +82,4 @@ export const store: StoreType = {
     this._callSubscriber();
   },
 };
+*/

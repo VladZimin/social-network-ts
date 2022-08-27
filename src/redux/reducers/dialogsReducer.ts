@@ -1,4 +1,4 @@
-import { ActionsTypes, DialogsPageType } from "../state";
+import { DialogsPageType, MessageDataType } from "../state";
 
 const SEND_MESSAGE = "SEND_MESSAGE";
 const UPDATE_MESSAGE_TEXT = "UPDATE_MESSAGE_TEXT";
@@ -27,25 +27,27 @@ const initialState = {
 
 export const dialogsReducer = (
   state: DialogsPageType = initialState,
-  { type, payload }: ActionsTypes
+  action: DialogsActionsType
 ) => {
-  switch (type) {
+  switch (action.type) {
     case SEND_MESSAGE:
-      state.messagesData.push({ id: 5, message: payload });
-      state.newMessageText = "";
-      return state;
+      const newMsg: MessageDataType = { id: 5, message: state.newMessageText };
+      const newState: DialogsPageType = {
+        ...state,
+        messagesData: [...state.messagesData, newMsg],
+        newMessageText: "",
+      };
+      return newState;
     case UPDATE_MESSAGE_TEXT:
-      state.newMessageText = payload;
-      return state;
+      return { ...state, newMessageText: action.payload };
     default:
       return state;
   }
 };
 
-export const sendMessage = (payload: string) =>
+export const sendMessage = () =>
   ({
     type: SEND_MESSAGE,
-    payload,
   } as const);
 export const updateMessageText = (payload: string) =>
   ({

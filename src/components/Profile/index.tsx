@@ -2,7 +2,7 @@ import React from "react";
 
 import s from "./Profile.module.css";
 import profileImg from "../../assets/profileImg.jpeg";
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
 
 const Profile = () => {
   return (

@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { Route, Routes } from "react-router-dom";
-import DialogsPageContainer from "./components/DialogsPage/DialogsPageContainer";
+import { DialogsPageContainer } from "./components/DialogsPage/DialogsPageContainer";
 
 const App = () => (
   <div className="app-wrapper">
