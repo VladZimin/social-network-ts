@@ -1,11 +1,15 @@
-import { DialogsActionsType } from "./reducers/dialogsReducer";
-import { ProfileActionsType } from "./reducers/profileReducer";
-
+//ProfilePage Types
 export type PostDataType = {
   id: number;
   postText: string;
   likesCount: number;
 };
+export type ProfilePageType = {
+  postsData: PostDataType[];
+  newPostText: string;
+};
+
+// DialogsPage Types
 export type MessageDataType = {
   id: number;
   message: string;
@@ -14,28 +18,30 @@ export type DialogDataType = {
   id: number;
   name: string;
 };
-export type ProfilePageType = {
-  postsData: PostDataType[];
-  newPostText: string;
-};
 export type DialogsPageType = {
   messagesData: MessageDataType[];
   dialogsData: DialogDataType[];
   newMessageText: string;
 };
-export type StateType = {
-  dialogsPage: DialogsPageType;
-  profilePage: ProfilePageType;
-};
-export type StoreType = {
-  _state: StateType;
-  getState: () => StateType;
-  _callSubscriber: () => void;
-  subscribe: (observer: () => void) => void;
-  dispatch: (action: ActionsTypes) => void;
+
+// UsersPage Types
+export type UserLocationType = {
+  country: string;
+  city: string;
 };
 
-export type ActionsTypes = ProfileActionsType | DialogsActionsType;
+export type UserDataType = {
+  id: number;
+  fullName: string;
+  photoUrl: string;
+  status: string;
+  follow: boolean;
+  location: UserLocationType;
+};
+
+export type UsersPageType = {
+  users: UserDataType[];
+};
 
 /*
 export const store: StoreType = {

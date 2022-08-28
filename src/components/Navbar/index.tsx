@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Navbar.module.css";
 import { NavLink } from "react-router-dom";
 
-const navList = ["Profile", "Messages", "News", "Music", "Settings"];
+const navList = ["Profile", "Messages", "Users", "News", "Music", "Settings"];
 
 export type activeNavLinkType = {
   isActive: boolean;
