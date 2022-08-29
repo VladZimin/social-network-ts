@@ -20,7 +20,7 @@ export const usersReducer = (
       return {
         ...state,
         users: state.users.map((u) =>
-          u.id === action.payload ? { ...u, follow: !u.follow } : u
+          u.id === action.payload ? { ...u, followed: !u.followed } : u
         ),
       };
     case SET_USERS:

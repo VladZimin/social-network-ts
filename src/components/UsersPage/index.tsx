@@ -1,6 +1,7 @@
 import { UserDataType } from "../../redux/state";
 import { FC, useEffect } from "react";
 import s from "./UsersPage.module.css";
+import axios from "axios";
 
 export type UsersPageType = {
   users: UserDataType[];
@@ -8,39 +9,21 @@ export type UsersPageType = {
   setUsers: (users: UserDataType[]) => void;
 };
 
+const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
+
 export const UsersPage: FC<UsersPageType> = ({
   users,
   toggleFollow,
   setUsers,
 }) => {
   useEffect(() => {
-    setUsers([
-      {
-        id: 1,
-        follow: false,
-        fullName: "Vlad",
-        photoUrl: "https://cdn-icons-png.flaticon.com/512/663/663097.png",
-        status: "Salam",
-        location: { country: "Kyrgyzstan", city: "Bishkek" },
-      },
-      {
-        id: 2,
-        follow: true,
-        fullName: "Vanya",
-        photoUrl: "https://cdn-icons-png.flaticon.com/512/663/663097.png",
-        status: "Privet",
-        location: { country: "Russia", city: "Yekaterinburg" },
-      },
-      {
-        id: 3,
-        follow: false,
-        fullName: "Denis",
-        photoUrl: "https://cdn-icons-png.flaticon.com/512/663/663097.png",
-        status: "Hi",
-        location: { country: "Russia", city: "Saint-Petersburg" },
-      },
-    ]);
+    axios
+      .get("https://social-network.samuraijs.com/api/1.0/users")
+      .then((res) => {
+        setUsers(res.data.items);
+      });
   }, []);
+
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
       toggleFollow(u.id);
@@ -48,16 +31,18 @@ export const UsersPage: FC<UsersPageType> = ({
 
     return (
       <div key={u.id} className={s.userBlock}>
-        <img src={u.photoUrl} className={s.userAvatar} alt="avatar" />
+        <img
+          src={u.photos.small ? u.photos.small : defaultPhoto}
+          className={s.userAvatar}
+          alt="avatar"
+        />
         <div>
           <button onClick={toggleFollowHandler}>
-            {u.follow ? "unfollow" : "follow"}
+            {u.followed ? "unfollow" : "follow"}
           </button>
         </div>
-        <div>full Name: {u.fullName}</div>
-        <div>status: {u.status}</div>
-        <div>country: {u.location.country}</div>
-        <div>city: {u.location.city}</div>
+        <div>full Name: {u.name}</div>
+        <div>status: {u.status ? u.status : "No status"}</div>
       </div>
     );
   });

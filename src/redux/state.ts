@@ -25,18 +25,17 @@ export type DialogsPageType = {
 };
 
 // UsersPage Types
-export type UserLocationType = {
-  country: string;
-  city: string;
-};
 
 export type UserDataType = {
   id: number;
-  fullName: string;
-  photoUrl: string;
-  status: string;
-  follow: boolean;
-  location: UserLocationType;
+  name: string;
+  photos: {
+    small: null | string;
+    large: null | string;
+  };
+  status: null | string;
+  uniqueUrlName: null | string;
+  followed: boolean;
 };
 
 export type UsersPageType = {
