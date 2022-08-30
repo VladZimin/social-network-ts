@@ -10,40 +10,38 @@ export type PostsPropsType = {
   changePostText: (newText: string) => void;
 };
 
-const MyPosts: React.FC<PostsPropsType> = ({
-  postsData,
-  newPostText,
-  changePostText,
-  addPost,
-}) => {
-  const postsList = postsData.map((postObj) => (
-    <Post
-      key={postObj.id}
-      postText={postObj.postText}
-      likesCount={postObj.likesCount}
-    />
-  ));
+class MyPosts extends React.Component<PostsPropsType> {
+  render() {
+    const { postsData, newPostText, changePostText, addPost } = this.props;
+    const postsList = postsData.map((postObj) => (
+      <Post
+        key={postObj.id}
+        postText={postObj.postText}
+        likesCount={postObj.likesCount}
+      />
+    ));
 
-  const addNewPost = () => {
-    addPost(newPostText);
-  };
-  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    changePostText(e.currentTarget.value);
-  };
+    const addNewPost = () => {
+      addPost(newPostText);
+    };
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+      changePostText(e.currentTarget.value);
+    };
 
-  return (
-    <>
-      <div className={s.postsBlock}>
-        <h3>My Posts</h3>
-        <div>
-          <textarea onChange={onChangeHandler} value={newPostText} />
-          <br />
-          <button onClick={addNewPost}>отправить</button>
+    return (
+      <>
+        <div className={s.postsBlock}>
+          <h3>My Posts</h3>
+          <div>
+            <textarea onChange={onChangeHandler} value={newPostText} />
+            <br />
+            <button onClick={addNewPost}>отправить</button>
+          </div>
+          <div className={s.allPosts}>{postsList}</div>
         </div>
-        <div className={s.allPosts}>{postsList}</div>
-      </div>
-    </>
-  );
-};
+      </>
+    );
+  }
+}
 
 export default MyPosts;

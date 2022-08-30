@@ -10,43 +10,43 @@ type PropsType = {
   changeMessage: (newText: string) => void;
 };
 
-const DialogsPage: React.FC<PropsType> = ({
-  dialogsPageData,
-  changeMessage,
-  sendMessage,
-}) => {
-  const dialogsList = dialogsPageData.dialogsData.map((userObj, i) => (
-    <Dialog key={i} {...userObj} />
-  ));
-  const messagesList = dialogsPageData.messagesData.map((messageObj) => (
-    <Message key={messageObj.id} message={messageObj.message} />
-  ));
+class DialogsPage extends React.Component<PropsType> {
+  render() {
+    const { dialogsPageData, changeMessage, sendMessage } = this.props;
 
-  const sendNewMessage = () => {
-    sendMessage(dialogsPageData.newMessageText);
-  };
-  const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    changeMessage(e.currentTarget.value);
-  };
+    const dialogsList = dialogsPageData.dialogsData.map((userObj, i) => (
+      <Dialog key={i} {...userObj} />
+    ));
+    const messagesList = dialogsPageData.messagesData.map((messageObj) => (
+      <Message key={messageObj.id} message={messageObj.message} />
+    ));
 
-  return (
-    <div className={s.dialogsWrapper}>
-      <div className={s.dialogsList}>{dialogsList}</div>
-      <div className={s.messageBlock}>
-        {messagesList}
-        <div>
-          <textarea
-            onChange={onChangeHandler}
-            value={dialogsPageData.newMessageText}
-            placeholder="Enter message..."
-          ></textarea>
-        </div>
-        <div>
-          <button onClick={sendNewMessage}>SEND</button>
+    const sendNewMessage = () => {
+      sendMessage(dialogsPageData.newMessageText);
+    };
+    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
+      changeMessage(e.currentTarget.value);
+    };
+
+    return (
+      <div className={s.dialogsWrapper}>
+        <div className={s.dialogsList}>{dialogsList}</div>
+        <div className={s.messageBlock}>
+          {messagesList}
+          <div>
+            <textarea
+              onChange={onChangeHandler}
+              value={dialogsPageData.newMessageText}
+              placeholder="Enter message..."
+            ></textarea>
+          </div>
+          <div>
+            <button onClick={sendNewMessage}>SEND</button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default DialogsPage;

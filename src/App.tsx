@@ -14,7 +14,7 @@ const App = () => (
     <div className="app-content">
       <Routes>
         <Route path="profile" element={<Profile />} />
-        <Route path="messages" element={<DialogsPageContainer />} />
+        <Route path="messages/*" element={<DialogsPageContainer />} />
         <Route path="users" element={<UsersPageContainer />} />
       </Routes>
     </div>
