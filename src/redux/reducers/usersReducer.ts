@@ -2,13 +2,20 @@ import { UserDataType, UsersPageType } from "../state";
 
 const TOGGLE_FOLLOW = "TOGGLE_FOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SET_TOTAL_USERS = "SET_TOTAL_USERS";
 
 export type UsersActionsType =
   | ReturnType<typeof toggleFollow>
-  | ReturnType<typeof setUsers>;
+  | ReturnType<typeof setUsers>
+  | ReturnType<typeof setTotalUsersCount>
+  | ReturnType<typeof setCurrentPage>;
 
 const initialState: UsersPageType = {
   users: [],
+  currentPage: 3,
+  pageSize: 10,
+  totalUsersCount: 100,
 };
 
 export const usersReducer = (
@@ -25,6 +32,10 @@ export const usersReducer = (
       };
     case SET_USERS:
       return { ...state, users: action.payload };
+    case SET_CURRENT_PAGE:
+      return { ...state, currentPage: action.payload };
+    case SET_TOTAL_USERS:
+      return { ...state, totalUsersCount: action.payload };
     default:
       return state;
   }
@@ -38,5 +49,15 @@ export const toggleFollow = (payload: number) =>
 export const setUsers = (payload: UserDataType[]) =>
   ({
     type: SET_USERS,
+    payload,
+  } as const);
+export const setCurrentPage = (payload: number) =>
+  ({
+    type: SET_CURRENT_PAGE,
+    payload,
+  } as const);
+export const setTotalUsersCount = (payload: number) =>
+  ({
+    type: SET_TOTAL_USERS,
     payload,
   } as const);

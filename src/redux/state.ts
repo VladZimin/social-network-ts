@@ -40,6 +40,9 @@ export type UserDataType = {
 
 export type UsersPageType = {
   users: UserDataType[];
+  currentPage: number;
+  pageSize: number;
+  totalUsersCount: number;
 };
 
 /*
