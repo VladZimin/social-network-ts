@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import {
   setCurrentPage,
   setIsFetching,
@@ -20,7 +20,7 @@ export type UsersPageContainerType = {
   isFetching: boolean;
   toggleFollow: (userId: number) => void;
   setUsers: (users: UserDataType[]) => void;
-  setTotalUsers: (usersCount: number) => void;
+  setTotalUsersCount: (usersCount: number) => void;
   setCurrentPage: (usersCount: number) => void;
   setIsFetching: (value: boolean) => void;
 };
@@ -82,13 +82,11 @@ const mapStateToProps = (state: RootState) => ({
   pageSize: state.usersPage.pageSize,
   isFetching: state.usersPage.isFetching,
 });
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  toggleFollow: (userId: number) => dispatch(toggleFollow(userId)),
-  setUsers: (users: UserDataType[]) => dispatch(setUsers(users)),
-  setCurrentPage: (pageNumber: number) => dispatch(setCurrentPage(pageNumber)),
-  setTotalUsers: (usersCount: number) =>
-    dispatch(setTotalUsersCount(usersCount)),
-  setIsFetching: (value: boolean) => dispatch(setIsFetching(value)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersPageContainer);
+export default connect(mapStateToProps, {
+  toggleFollow,
+  setUsers,
+  setCurrentPage,
+  setTotalUsersCount,
+  setIsFetching,
+})(UsersPageContainer);
