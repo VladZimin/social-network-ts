@@ -7,12 +7,12 @@ export type PostsPropsType = {
   postsData: PostDataType[];
   newPostText: string;
   addPost: (postText: string) => void;
-  changePostText: (newText: string) => void;
+  updatePostText: (newText: string) => void;
 };
 
 class MyPosts extends React.Component<PostsPropsType> {
   render() {
-    const { postsData, newPostText, changePostText, addPost } = this.props;
+    const { postsData, newPostText, updatePostText, addPost } = this.props;
     const postsList = postsData.map((postObj) => (
       <Post
         key={postObj.id}
@@ -25,7 +25,7 @@ class MyPosts extends React.Component<PostsPropsType> {
       addPost(newPostText);
     };
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      changePostText(e.currentTarget.value);
+      updatePostText(e.currentTarget.value);
     };
 
     return (

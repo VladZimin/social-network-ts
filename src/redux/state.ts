@@ -4,9 +4,33 @@ export type PostDataType = {
   postText: string;
   likesCount: number;
 };
+
+export type ProfileDataType = {
+  aboutMe: null | string;
+  contacts: {
+    facebook: null | string;
+    website: null | string;
+    vk: null | string;
+    twitter: null | string;
+    instagram: null | string;
+    youtube: null | string;
+    github: null | string;
+    mainLink: null | string;
+  };
+  lookingForAJob: boolean;
+  lookingForAJobDescription: null | string;
+  fullName: string;
+  userId: number;
+  photos: {
+    small: null | string;
+    large: null | string;
+  };
+};
+
 export type ProfilePageType = {
   postsData: PostDataType[];
   newPostText: string;
+  profileData: ProfileDataType | null;
 };
 
 // DialogsPage Types
@@ -31,7 +55,7 @@ export type UserDataType = {
   name: string;
   photos: {
     small: null | string;
-    large: null | string;
+    large: null | string | undefined;
   };
   status: null | string;
   uniqueUrlName: null | string;

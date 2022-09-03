@@ -2,6 +2,7 @@ import { UserDataType } from "../../redux/state";
 import { FC } from "react";
 import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
+import { NavLink } from "react-router-dom";
 
 type UsersPageType = {
   users: UserDataType[];
@@ -45,11 +46,13 @@ export const UsersPage: FC<UsersPageType> = ({
     };
     return (
       <div key={u.id} className={s.userBlock}>
-        <img
-          src={u.photos.small ? u.photos.small : defaultPhoto}
-          className={s.userAvatar}
-          alt="avatar"
-        />
+        <NavLink to={`/profile/${u.id}`}>
+          <img
+            src={u.photos.small ? u.photos.small : defaultPhoto}
+            className={s.userAvatar}
+            alt="avatar"
+          />
+        </NavLink>
         <div>
           <button onClick={toggleFollowHandler}>
             {u.followed ? "unfollow" : "follow"}
@@ -64,7 +67,7 @@ export const UsersPage: FC<UsersPageType> = ({
   return (
     <>
       <div className={s.pagesBlock}>{renderedPages}</div>
-      {isFetching ? <img src={loader} /> : renderedUsers}
+      {isFetching ? <img src={loader} alt={"Loader"} /> : renderedUsers}
     </>
   );
 };

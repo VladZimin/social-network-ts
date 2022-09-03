@@ -8,7 +8,6 @@ const reducers = combineReducers({
   dialogsPage: dialogsReducer,
   usersPage: usersReducer,
 });
-
 export const store = createStore(reducers);
 
 export type RootState = ReturnType<typeof store.getState>;
