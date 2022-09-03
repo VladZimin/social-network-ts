@@ -4,18 +4,21 @@ const TOGGLE_FOLLOW = "TOGGLE_FOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS = "SET_TOTAL_USERS";
+const SET_IS_FETCHING = "SET_IS_FETCHING";
 
 export type UsersActionsType =
   | ReturnType<typeof toggleFollow>
   | ReturnType<typeof setUsers>
   | ReturnType<typeof setTotalUsersCount>
-  | ReturnType<typeof setCurrentPage>;
+  | ReturnType<typeof setCurrentPage>
+  | ReturnType<typeof setIsFetching>;
 
 const initialState: UsersPageType = {
   users: [],
   currentPage: 3,
   pageSize: 10,
   totalUsersCount: 100,
+  isFetching: false,
 };
 
 export const usersReducer = (
@@ -36,6 +39,8 @@ export const usersReducer = (
       return { ...state, currentPage: action.payload };
     case SET_TOTAL_USERS:
       return { ...state, totalUsersCount: action.payload };
+    case SET_IS_FETCHING:
+      return { ...state, isFetching: action.payload };
     default:
       return state;
   }
@@ -59,5 +64,10 @@ export const setCurrentPage = (payload: number) =>
 export const setTotalUsersCount = (payload: number) =>
   ({
     type: SET_TOTAL_USERS,
+    payload,
+  } as const);
+export const setIsFetching = (payload: boolean) =>
+  ({
+    type: SET_IS_FETCHING,
     payload,
   } as const);

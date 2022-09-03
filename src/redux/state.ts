@@ -43,6 +43,7 @@ export type UsersPageType = {
   currentPage: number;
   pageSize: number;
   totalUsersCount: number;
+  isFetching: boolean;
 };
 
 /*

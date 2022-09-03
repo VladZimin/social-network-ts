@@ -8,7 +8,7 @@ export type activeNavLinkType = {
   isActive: boolean;
 };
 const activeNav = {
-  color: "rgba(117, 149, 231, 0.76)",
+  color: "rgba(37,41,49,0.93)",
 };
 
 const Navbar = () => {
