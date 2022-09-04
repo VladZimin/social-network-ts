@@ -3,13 +3,10 @@ import { connect } from "react-redux";
 import { ProfilePage } from "./index";
 import axios from "axios";
 import { RootState } from "../../redux/store";
-import { ProfileDataType } from "../../redux/state";
-import { setUserProfile } from "../../redux/reducers/profileReducer";
-
-export type ProfileContainerType = {
-  profileData: ProfileDataType | null;
-  setUserProfile: (profileData: ProfileDataType) => void;
-};
+import {
+  ProfileDataType,
+  setUserProfile,
+} from "../../redux/reducers/profileReducer";
 
 class ProfilePageContainer extends Component<ProfileContainerType> {
   componentDidMount() {
@@ -25,7 +22,16 @@ class ProfilePageContainer extends Component<ProfileContainerType> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+type MapStatePropsType = {
+  profileData: ProfileDataType | null;
+};
+type MapDispatchPropsType = {
+  setUserProfile: (profileData: ProfileDataType) => void;
+};
+
+export type ProfileContainerType = MapStatePropsType & MapDispatchPropsType;
+
+const mapStateToProps = (state: RootState): MapStatePropsType => ({
   profileData: state.profilePage.profileData,
 });
 export default connect(mapStateToProps, { setUserProfile })(

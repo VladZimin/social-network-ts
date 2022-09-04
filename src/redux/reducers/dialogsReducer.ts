@@ -1,5 +1,3 @@
-import { DialogsPageType, MessageDataType } from "../state";
-
 const SEND_MESSAGE = "SEND_MESSAGE";
 const UPDATE_MESSAGE_TEXT = "UPDATE_MESSAGE_TEXT";
 
@@ -7,13 +5,22 @@ export type DialogsActionsType =
   | ReturnType<typeof sendMessage>
   | ReturnType<typeof updateMessageText>;
 
+export type MessageDataType = {
+  id: number;
+  message: string;
+};
+export type DialogDataType = {
+  id: number;
+  name: string;
+};
+
 const initialState = {
   messagesData: [
     { id: 1, message: "Hello" },
     { id: 2, message: "How are you?" },
     { id: 3, message: "Fine! U?" },
     { id: 4, message: "Good!" },
-  ],
+  ] as MessageDataType[],
   dialogsData: [
     { id: 1, name: "Ivan" },
     { id: 2, name: "Vlad" },
@@ -21,23 +28,24 @@ const initialState = {
     { id: 4, name: "Viktor" },
     { id: 5, name: "Vadim" },
     { id: 6, name: "Kolya" },
-  ],
+  ] as DialogDataType[],
   newMessageText: "",
 };
 
+export type DialogsStateType = typeof initialState;
+
 export const dialogsReducer = (
-  state: DialogsPageType = initialState,
+  state: DialogsStateType = initialState,
   action: DialogsActionsType
-) => {
+): DialogsStateType => {
   switch (action.type) {
     case SEND_MESSAGE:
       const newMsg: MessageDataType = { id: 5, message: state.newMessageText };
-      const newState: DialogsPageType = {
+      return {
         ...state,
         messagesData: [...state.messagesData, newMsg],
         newMessageText: "",
       };
-      return newState;
     case UPDATE_MESSAGE_TEXT:
       return { ...state, newMessageText: action.payload };
     default:

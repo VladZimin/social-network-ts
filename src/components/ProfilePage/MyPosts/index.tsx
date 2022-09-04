@@ -1,16 +1,9 @@
 import React, { ChangeEvent } from "react";
 import s from "./MyPosts.module.css";
 import Post from "./Post";
-import { PostDataType } from "../../../redux/state";
+import { MyPostsPropsType } from "./MyPostsContainer";
 
-export type PostsPropsType = {
-  postsData: PostDataType[];
-  newPostText: string;
-  addPost: (postText: string) => void;
-  updatePostText: (newText: string) => void;
-};
-
-class MyPosts extends React.Component<PostsPropsType> {
+class MyPosts extends React.Component<MyPostsPropsType> {
   render() {
     const { postsData, newPostText, updatePostText, addPost } = this.props;
     const postsList = postsData.map((postObj) => (
@@ -22,7 +15,7 @@ class MyPosts extends React.Component<PostsPropsType> {
     ));
 
     const addNewPost = () => {
-      addPost(newPostText);
+      addPost();
     };
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
       updatePostText(e.currentTarget.value);

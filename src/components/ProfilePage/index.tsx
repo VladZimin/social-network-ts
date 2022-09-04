@@ -3,8 +3,8 @@ import React, { FC } from "react";
 import s from "./Profile.module.css";
 import profileImg from "../../assets/profileImg.jpeg";
 import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
-import { ProfileDataType } from "../../redux/state";
 import preloader from "../../assets/loader.svg";
+import { ProfileDataType } from "../../redux/reducers/profileReducer";
 
 export type ProfilePageType = {
   profileData: ProfileDataType | null;

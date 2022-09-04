@@ -6,24 +6,12 @@ import {
   setTotalUsersCount,
   setUsers,
   toggleFollow,
+  UserDataType,
+  UsersPageStateType,
 } from "../../redux/reducers/usersReducer";
-import { UserDataType } from "../../redux/state";
 import { Component } from "react";
 import axios from "axios";
 import { UsersPage } from "./index";
-
-export type UsersPageContainerType = {
-  users: UserDataType[];
-  currentPage: number;
-  totalUsers: number;
-  pageSize: number;
-  isFetching: boolean;
-  toggleFollow: (userId: number) => void;
-  setUsers: (users: UserDataType[]) => void;
-  setTotalUsersCount: (usersCount: number) => void;
-  setCurrentPage: (usersCount: number) => void;
-  setIsFetching: (value: boolean) => void;
-};
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
   componentDidMount() {
@@ -56,7 +44,7 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
       users,
       toggleFollow,
       pageSize,
-      totalUsers,
+      totalUsersCount,
       currentPage,
       isFetching,
     } = this.props;
@@ -65,7 +53,7 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
       <UsersPage
         users={users}
         currentPage={currentPage}
-        totalUsers={totalUsers}
+        totalUsersCount={totalUsersCount}
         pageSize={pageSize}
         isFetching={isFetching}
         toggleFollow={toggleFollow}
@@ -75,10 +63,20 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+type MapDispatchPropsType = {
+  toggleFollow: (userId: number) => void;
+  setUsers: (users: UserDataType[]) => void;
+  setTotalUsersCount: (usersCount: number) => void;
+  setCurrentPage: (usersCount: number) => void;
+  setIsFetching: (value: boolean) => void;
+};
+
+type UsersPageContainerType = UsersPageStateType & MapDispatchPropsType;
+
+const mapStateToProps = (state: RootState): UsersPageStateType => ({
   users: state.usersPage.users,
   currentPage: state.usersPage.currentPage,
-  totalUsers: state.usersPage.totalUsersCount,
+  totalUsersCount: state.usersPage.totalUsersCount,
   pageSize: state.usersPage.pageSize,
   isFetching: state.usersPage.isFetching,
 });

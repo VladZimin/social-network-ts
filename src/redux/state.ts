@@ -1,77 +1,14 @@
-//ProfilePage Types
-export type PostDataType = {
-  id: number;
-  postText: string;
-  likesCount: number;
-};
+export {};
 
-export type ProfileDataType = {
-  aboutMe: null | string;
-  contacts: {
-    facebook: null | string;
-    website: null | string;
-    vk: null | string;
-    twitter: null | string;
-    instagram: null | string;
-    youtube: null | string;
-    github: null | string;
-    mainLink: null | string;
-  };
-  lookingForAJob: boolean;
-  lookingForAJobDescription: null | string;
-  fullName: string;
-  userId: number;
-  photos: {
-    small: null | string;
-    large: null | string;
-  };
-};
+function profileReducer(profile: any, actions: any) {
+  return { newPostText: "", postsData: [] };
+}
 
-export type ProfilePageType = {
-  postsData: PostDataType[];
-  newPostText: string;
-  profileData: ProfileDataType | null;
-};
+function dialogsReducer(profile: any, actions: any) {
+  return { newMessageText: "", dialogsData: [], messagesData: [] };
+}
 
-// DialogsPage Types
-export type MessageDataType = {
-  id: number;
-  message: string;
-};
-export type DialogDataType = {
-  id: number;
-  name: string;
-};
-export type DialogsPageType = {
-  messagesData: MessageDataType[];
-  dialogsData: DialogDataType[];
-  newMessageText: string;
-};
-
-// UsersPage Types
-
-export type UserDataType = {
-  id: number;
-  name: string;
-  photos: {
-    small: null | string;
-    large: null | string | undefined;
-  };
-  status: null | string;
-  uniqueUrlName: null | string;
-  followed: boolean;
-};
-
-export type UsersPageType = {
-  users: UserDataType[];
-  currentPage: number;
-  pageSize: number;
-  totalUsersCount: number;
-  isFetching: boolean;
-};
-
-/*
-export const store: StoreType = {
+const store = {
   _state: {
     dialogsPage: {
       messagesData: [
@@ -109,10 +46,9 @@ export const store: StoreType = {
   subscribe(observer: () => void) {
     this._callSubscriber = observer;
   },
-  dispatch(actions) {
+  dispatch(actions: any) {
     this._state.profilePage = profileReducer(this._state.profilePage, actions);
     this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, actions);
     this._callSubscriber();
   },
 };
-*/

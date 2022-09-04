@@ -2,17 +2,11 @@ import React, { ChangeEvent } from "react";
 import s from "./Dialogs.module.css";
 import Dialog from "./Dialog";
 import Message from "./Message";
-import { DialogsPageType } from "../../redux/state";
+import { DialogsPagePropsType } from "./DialogsPageContainer";
 
-type PropsType = {
-  dialogsPageData: DialogsPageType;
-  sendMessage: (newMessage: string) => void;
-  changeMessage: (newText: string) => void;
-};
-
-class DialogsPage extends React.Component<PropsType> {
+class DialogsPage extends React.Component<DialogsPagePropsType> {
   render() {
-    const { dialogsPageData, changeMessage, sendMessage } = this.props;
+    const { dialogsPageData, updateMessageText, sendMessage } = this.props;
 
     const dialogsList = dialogsPageData.dialogsData.map((userObj, i) => (
       <Dialog key={i} {...userObj} />
@@ -22,10 +16,10 @@ class DialogsPage extends React.Component<PropsType> {
     ));
 
     const sendNewMessage = () => {
-      sendMessage(dialogsPageData.newMessageText);
+      sendMessage();
     };
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      changeMessage(e.currentTarget.value);
+      updateMessageText(e.currentTarget.value);
     };
 
     return (

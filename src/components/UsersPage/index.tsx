@@ -1,15 +1,10 @@
-import { UserDataType } from "../../redux/state";
 import { FC } from "react";
 import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
+import { UsersPageStateType } from "../../redux/reducers/usersReducer";
 
-type UsersPageType = {
-  users: UserDataType[];
-  currentPage: number;
-  totalUsers: number;
-  isFetching: boolean;
-  pageSize: number;
+type UsersPageType = UsersPageStateType & {
   toggleFollow: (userId: number) => void;
   changePageHandler: (pageNumber: number) => void;
 };
@@ -22,11 +17,11 @@ export const UsersPage: FC<UsersPageType> = ({
   users,
   isFetching,
   changePageHandler,
-  totalUsers,
+  totalUsersCount,
   toggleFollow,
 }) => {
   const pages: number[] = [];
-  const pagesCount = Math.ceil(totalUsers / pageSize);
+  const pagesCount = Math.ceil(totalUsersCount / pageSize);
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }

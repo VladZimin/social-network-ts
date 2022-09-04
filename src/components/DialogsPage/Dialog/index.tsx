@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Dialog.module.css";
 import { NavLink } from "react-router-dom";
 import { activeNavLinkType } from "../../Navbar";
-import { DialogDataType } from "../../../redux/state";
+import { DialogDataType } from "../../../redux/reducers/dialogsReducer";
 
 const Dialog: React.FC<DialogDataType> = ({ name, id }) => {
   const activeDialog = {
