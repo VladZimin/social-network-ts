@@ -11,7 +11,6 @@ export type ProfilePageType = {
 };
 
 export const ProfilePage: FC<ProfilePageType> = ({ profileData }) => {
-  console.log(preloader);
   return (
     <>
       <div className={s.content}>
