@@ -23,7 +23,6 @@ export const authReducer = (
 ): AuthStateType => {
   switch (action.type) {
     case SET_AUTH_USER_DATA: {
-      debugger;
       return {
         ...action.payload,
         isAuth: true,

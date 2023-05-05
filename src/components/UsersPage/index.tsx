@@ -3,6 +3,7 @@ import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
 import { UsersPageStateType } from "../../redux/reducers/usersReducer";
+import axios from "axios";
 
 type UsersPageType = UsersPageStateType & {
   toggleFollow: (userId: number) => void;
@@ -37,7 +38,40 @@ export const UsersPage: FC<UsersPageType> = ({
   ));
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
-      toggleFollow(u.id);
+      if (u.followed) {
+        axios
+          .delete(
+            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+            {
+              withCredentials: true,
+              headers: {
+                "API-KEY": "b5967d67-24ac-44f2-a315-0326853dedf0",
+              },
+            }
+          )
+          .then((res) => {
+            if (res.data.resultCode === 0) {
+              toggleFollow(u.id);
+            }
+          });
+      } else {
+        axios
+          .post(
+            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+            {},
+            {
+              withCredentials: true,
+              headers: {
+                "API-KEY": "b5967d67-24ac-44f2-a315-0326853dedf0",
+              },
+            }
+          )
+          .then((res) => {
+            if (res.data.resultCode === 0) {
+              toggleFollow(u.id);
+            }
+          });
+      }
     };
     return (
       <div key={u.id} className={s.userBlock}>

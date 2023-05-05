@@ -18,7 +18,10 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
     this.props.setIsFetching(true);
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+        {
+          withCredentials: true,
+        }
       )
       .then((res) => {
         this.props.setUsers(res.data.items);
@@ -31,7 +34,10 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
     this.props.setIsFetching(true);
     axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
+        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
+        {
+          withCredentials: true,
+        }
       )
       .then((res) => {
         this.props.setUsers(res.data.items);
