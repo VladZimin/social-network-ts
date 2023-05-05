@@ -1,15 +1,15 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import { DialogsPageContainer } from "./components/DialogsPage/DialogsPageContainer";
 import UsersPageContainer from "./components/UsersPage/UsersPageContainer";
 import ProfilePageContainer from "./components/ProfilePage/ProfilePageContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 const App = () => (
   <div className="app-wrapper">
-    <Header />
+    <HeaderContainer />
     <Navbar />
     <div className="app-content">
       <Routes>

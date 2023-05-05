@@ -44,7 +44,6 @@ const mapStateToProps = (state: RootState): MapStatePropsType => ({
 const withRouter = (Component: typeof ProfilePageContainer) => {
   function ComponentWithRouterProp(props: ProfileContainerPropsType) {
     const { userId } = useParams<{ userId: string | undefined }>();
-    console.log(userId);
     return <Component {...props} params={userId} />;
   }
 
