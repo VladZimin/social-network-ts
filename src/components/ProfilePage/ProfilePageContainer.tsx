@@ -1,13 +1,13 @@
 import { Component } from "react";
 import { connect } from "react-redux";
 import { ProfilePage } from "./index";
-import axios from "axios";
 import { RootState } from "../../redux/store";
 import {
   ProfileDataType,
   setUserProfile,
 } from "../../redux/reducers/profileReducer";
 import { useParams } from "react-router-dom";
+import { profilesAPI } from "../../api/api";
 
 class ProfilePageContainer extends Component<
   ProfileContainerPropsType & { params: string | undefined }
@@ -15,11 +15,9 @@ class ProfilePageContainer extends Component<
   componentDidMount() {
     let userId = this.props.params;
     if (!userId) userId = "2";
-    axios
-      .get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-      .then((res) => {
-        this.props.setUserProfile(res.data);
-      });
+    profilesAPI.getUserProfile(userId).then((data) => {
+      this.props.setUserProfile(data);
+    });
   }
 
   render() {

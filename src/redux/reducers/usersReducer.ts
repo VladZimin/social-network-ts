@@ -3,13 +3,15 @@ const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS = "SET_TOTAL_USERS";
 const SET_IS_FETCHING = "SET_IS_FETCHING";
+const SET_IS_FOLLOWING = "SET_IS_FOLLOWING";
 
 export type UsersActionsType =
   | ReturnType<typeof toggleFollow>
   | ReturnType<typeof setUsers>
   | ReturnType<typeof setTotalUsersCount>
   | ReturnType<typeof setCurrentPage>
-  | ReturnType<typeof setIsFetching>;
+  | ReturnType<typeof setIsFetching>
+  | ReturnType<typeof setIsFollowing>;
 
 export type UserDataType = {
   id: number;
@@ -29,6 +31,7 @@ const initialState = {
   pageSize: 10,
   totalUsersCount: 100,
   isFetching: false,
+  isFollowing: [] as number[],
 };
 
 export type UsersPageStateType = typeof initialState;
@@ -53,6 +56,13 @@ export const usersReducer = (
       return { ...state, totalUsersCount: action.payload };
     case SET_IS_FETCHING:
       return { ...state, isFetching: action.payload };
+    case SET_IS_FOLLOWING:
+      return {
+        ...state,
+        isFollowing: action.isFetching
+          ? [...state.isFollowing, action.userId]
+          : state.isFollowing.filter((id) => id !== action.userId),
+      };
     default:
       return state;
   }
@@ -82,4 +92,10 @@ export const setIsFetching = (payload: boolean) =>
   ({
     type: SET_IS_FETCHING,
     payload,
+  } as const);
+export const setIsFollowing = (isFetching: boolean, userId: number) =>
+  ({
+    type: SET_IS_FOLLOWING,
+    isFetching,
+    userId,
   } as const);

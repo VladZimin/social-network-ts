@@ -3,6 +3,7 @@ import { RootState } from "../../redux/store";
 import {
   setCurrentPage,
   setIsFetching,
+  setIsFollowing,
   setTotalUsersCount,
   setUsers,
   toggleFollow,
@@ -10,21 +11,15 @@ import {
   UsersPageStateType,
 } from "../../redux/reducers/usersReducer";
 import { Component } from "react";
-import axios from "axios";
 import { UsersPage } from "./index";
+import { usersAPI } from "../../api/api";
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
   componentDidMount() {
-    this.props.setIsFetching(true);
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        this.props.setUsers(res.data.items);
+    usersAPI
+      .getUsers(this.props.currentPage, this.props.pageSize)
+      .then((data) => {
+        this.props.setUsers(data.items);
         this.props.setIsFetching(false);
       });
   }
@@ -32,17 +27,10 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
   changePageHandler = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber);
     this.props.setIsFetching(true);
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        this.props.setUsers(res.data.items);
-        this.props.setIsFetching(false);
-      });
+    usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
+      this.props.setUsers(data.items);
+      this.props.setIsFetching(false);
+    });
   };
 
   render() {
@@ -53,6 +41,8 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
       totalUsersCount,
       currentPage,
       isFetching,
+      isFollowing,
+      setIsFollowing,
     } = this.props;
 
     return (
@@ -64,6 +54,8 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
         isFetching={isFetching}
         toggleFollow={toggleFollow}
         changePageHandler={this.changePageHandler}
+        setIsFollowing={setIsFollowing}
+        isFollowing={isFollowing}
       />
     );
   }
@@ -75,6 +67,7 @@ type MapDispatchPropsType = {
   setTotalUsersCount: (usersCount: number) => void;
   setCurrentPage: (usersCount: number) => void;
   setIsFetching: (value: boolean) => void;
+  setIsFollowing: (isFetching: boolean, userId: number) => void;
 };
 
 type UsersPageContainerType = UsersPageStateType & MapDispatchPropsType;
@@ -85,6 +78,7 @@ const mapStateToProps = (state: RootState): UsersPageStateType => ({
   totalUsersCount: state.usersPage.totalUsersCount,
   pageSize: state.usersPage.pageSize,
   isFetching: state.usersPage.isFetching,
+  isFollowing: state.usersPage.isFollowing,
 });
 
 export default connect(mapStateToProps, {
@@ -93,4 +87,5 @@ export default connect(mapStateToProps, {
   setCurrentPage,
   setTotalUsersCount,
   setIsFetching,
+  setIsFollowing,
 })(UsersPageContainer);

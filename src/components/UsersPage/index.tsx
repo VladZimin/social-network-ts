@@ -3,11 +3,12 @@ import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
 import { UsersPageStateType } from "../../redux/reducers/usersReducer";
-import axios from "axios";
+import { usersAPI } from "../../api/api";
 
 type UsersPageType = UsersPageStateType & {
   toggleFollow: (userId: number) => void;
   changePageHandler: (pageNumber: number) => void;
+  setIsFollowing: (isFetching: boolean, userId: number) => void;
 };
 
 const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
@@ -20,6 +21,8 @@ export const UsersPage: FC<UsersPageType> = ({
   changePageHandler,
   totalUsersCount,
   toggleFollow,
+  isFollowing,
+  setIsFollowing,
 }) => {
   const pages: number[] = [];
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -39,38 +42,21 @@ export const UsersPage: FC<UsersPageType> = ({
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
       if (u.followed) {
-        axios
-          .delete(
-            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-            {
-              withCredentials: true,
-              headers: {
-                "API-KEY": "b5967d67-24ac-44f2-a315-0326853dedf0",
-              },
-            }
-          )
-          .then((res) => {
-            if (res.data.resultCode === 0) {
-              toggleFollow(u.id);
-            }
-          });
+        setIsFollowing(true, u.id);
+        usersAPI.unfollowUser(u.id).then((data) => {
+          if (data.resultCode === 0) {
+            toggleFollow(u.id);
+          }
+          setIsFollowing(false, u.id);
+        });
       } else {
-        axios
-          .post(
-            `https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
-            {},
-            {
-              withCredentials: true,
-              headers: {
-                "API-KEY": "b5967d67-24ac-44f2-a315-0326853dedf0",
-              },
-            }
-          )
-          .then((res) => {
-            if (res.data.resultCode === 0) {
-              toggleFollow(u.id);
-            }
-          });
+        setIsFollowing(true, u.id);
+        usersAPI.followUser(u.id).then((data) => {
+          if (data.resultCode === 0) {
+            toggleFollow(u.id);
+          }
+          setIsFollowing(false, u.id);
+        });
       }
     };
     return (
@@ -83,7 +69,10 @@ export const UsersPage: FC<UsersPageType> = ({
           />
         </NavLink>
         <div>
-          <button onClick={toggleFollowHandler}>
+          <button
+            onClick={toggleFollowHandler}
+            disabled={isFollowing.some((id) => id === u.id)}
+          >
             {u.followed ? "unfollow" : "follow"}
           </button>
         </div>
