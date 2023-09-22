@@ -1,48 +1,35 @@
 import { connect } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
+  followUsersTC,
+  getUsersTC,
   setCurrentPage,
-  setIsFetching,
-  setIsFollowing,
-  setTotalUsersCount,
-  setUsers,
-  toggleFollow,
-  UserDataType,
+  unfollowUsersTC,
   UsersPageStateType,
 } from "../../redux/reducers/usersReducer";
 import { Component } from "react";
 import { UsersPage } from "./index";
-import { usersAPI } from "../../api/api";
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
   componentDidMount() {
-    usersAPI
-      .getUsers(this.props.currentPage, this.props.pageSize)
-      .then((data) => {
-        this.props.setUsers(data.items);
-        this.props.setIsFetching(false);
-      });
+    this.props.getUsersTC(this.props.currentPage, this.props.pageSize);
   }
 
   changePageHandler = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber);
-    this.props.setIsFetching(true);
-    usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
-      this.props.setUsers(data.items);
-      this.props.setIsFetching(false);
-    });
+    this.props.getUsersTC(pageNumber, this.props.pageSize);
   };
 
   render() {
     const {
       users,
-      toggleFollow,
       pageSize,
       totalUsersCount,
       currentPage,
       isFetching,
       isFollowing,
-      setIsFollowing,
+      unfollowUsersTC,
+      followUsersTC,
     } = this.props;
 
     return (
@@ -52,22 +39,20 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
         totalUsersCount={totalUsersCount}
         pageSize={pageSize}
         isFetching={isFetching}
-        toggleFollow={toggleFollow}
         changePageHandler={this.changePageHandler}
-        setIsFollowing={setIsFollowing}
         isFollowing={isFollowing}
+        unfollowUsersTC={unfollowUsersTC}
+        followUsersTC={followUsersTC}
       />
     );
   }
 }
 
 type MapDispatchPropsType = {
-  toggleFollow: (userId: number) => void;
-  setUsers: (users: UserDataType[]) => void;
-  setTotalUsersCount: (usersCount: number) => void;
   setCurrentPage: (usersCount: number) => void;
-  setIsFetching: (value: boolean) => void;
-  setIsFollowing: (isFetching: boolean, userId: number) => void;
+  getUsersTC: (currentPage: number, pageSize: number) => void;
+  unfollowUsersTC: (userId: number) => void;
+  followUsersTC: (userId: number) => void;
 };
 
 type UsersPageContainerType = UsersPageStateType & MapDispatchPropsType;
@@ -82,10 +67,8 @@ const mapStateToProps = (state: RootState): UsersPageStateType => ({
 });
 
 export default connect(mapStateToProps, {
-  toggleFollow,
-  setUsers,
   setCurrentPage,
-  setTotalUsersCount,
-  setIsFetching,
-  setIsFollowing,
+  getUsersTC,
+  unfollowUsersTC,
+  followUsersTC,
 })(UsersPageContainer);

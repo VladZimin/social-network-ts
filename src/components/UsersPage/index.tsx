@@ -3,12 +3,11 @@ import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
 import { UsersPageStateType } from "../../redux/reducers/usersReducer";
-import { usersAPI } from "../../api/api";
 
 type UsersPageType = UsersPageStateType & {
-  toggleFollow: (userId: number) => void;
   changePageHandler: (pageNumber: number) => void;
-  setIsFollowing: (isFetching: boolean, userId: number) => void;
+  unfollowUsersTC: (userId: number) => void;
+  followUsersTC: (userId: number) => void;
 };
 
 const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
@@ -20,9 +19,9 @@ export const UsersPage: FC<UsersPageType> = ({
   isFetching,
   changePageHandler,
   totalUsersCount,
-  toggleFollow,
   isFollowing,
-  setIsFollowing,
+  unfollowUsersTC,
+  followUsersTC,
 }) => {
   const pages: number[] = [];
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
@@ -42,21 +41,16 @@ export const UsersPage: FC<UsersPageType> = ({
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
       if (u.followed) {
-        setIsFollowing(true, u.id);
-        usersAPI.unfollowUser(u.id).then((data) => {
-          if (data.resultCode === 0) {
-            toggleFollow(u.id);
-          }
-          setIsFollowing(false, u.id);
-        });
+        // setIsFollowing(true, u.id);
+        // usersAPI.unfollowUser(u.id).then((data) => {
+        //   if (data.resultCode === 0) {
+        //     toggleFollow(u.id);
+        //   }
+        //   setIsFollowing(false, u.id);
+        // });
+        unfollowUsersTC(u.id);
       } else {
-        setIsFollowing(true, u.id);
-        usersAPI.followUser(u.id).then((data) => {
-          if (data.resultCode === 0) {
-            toggleFollow(u.id);
-          }
-          setIsFollowing(false, u.id);
-        });
+        followUsersTC(u.id);
       }
     };
     return (

@@ -1,3 +1,6 @@
+import { Dispatch } from "redux";
+import { usersAPI } from "../../api/api";
+
 const TOGGLE_FOLLOW = "TOGGLE_FOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
@@ -99,3 +102,30 @@ export const setIsFollowing = (isFetching: boolean, userId: number) =>
     isFetching,
     userId,
   } as const);
+
+export const getUsersTC =
+  (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+    dispatch(setIsFetching(true));
+    usersAPI.getUsers(currentPage, pageSize).then((data) => {
+      dispatch(setUsers(data.items));
+      dispatch(setIsFetching(false));
+    });
+  };
+export const followUsersTC = (userId: number) => (dispatch: Dispatch) => {
+  dispatch(setIsFollowing(true, userId));
+  usersAPI.followUser(userId).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(toggleFollow(userId));
+    }
+    dispatch(setIsFollowing(false, userId));
+  });
+};
+export const unfollowUsersTC = (userId: number) => (dispatch: Dispatch) => {
+  dispatch(setIsFollowing(true, userId));
+  usersAPI.unfollowUser(userId).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(toggleFollow(userId));
+    }
+    dispatch(setIsFollowing(false, userId));
+  });
+};
