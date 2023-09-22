@@ -3,11 +3,10 @@ import { connect } from "react-redux";
 import { ProfilePage } from "./index";
 import { RootState } from "../../redux/store";
 import {
+  getUserProfileTC,
   ProfileDataType,
-  setUserProfile,
 } from "../../redux/reducers/profileReducer";
 import { useParams } from "react-router-dom";
-import { profilesAPI } from "../../api/api";
 
 class ProfilePageContainer extends Component<
   ProfileContainerPropsType & { params: string | undefined }
@@ -15,9 +14,7 @@ class ProfilePageContainer extends Component<
   componentDidMount() {
     let userId = this.props.params;
     if (!userId) userId = "2";
-    profilesAPI.getUserProfile(userId).then((data) => {
-      this.props.setUserProfile(data);
-    });
+    this.props.getUserProfileTC(userId);
   }
 
   render() {
@@ -29,7 +26,7 @@ type MapStatePropsType = {
   profileData: ProfileDataType | null;
 };
 type MapDispatchPropsType = {
-  setUserProfile: (profileData: ProfileDataType) => void;
+  getUserProfileTC: (userId: string) => void;
 };
 
 export type ProfileContainerPropsType = MapStatePropsType &
@@ -48,6 +45,6 @@ const withRouter = (Component: typeof ProfilePageContainer) => {
   return ComponentWithRouterProp;
 };
 
-export default connect(mapStateToProps, { setUserProfile })(
+export default connect(mapStateToProps, { getUserProfileTC })(
   withRouter(ProfilePageContainer)
 );
