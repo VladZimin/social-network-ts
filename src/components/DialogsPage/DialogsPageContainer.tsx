@@ -1,4 +1,3 @@
-import React from "react";
 import {
   DialogsStateType,
   sendMessage,
@@ -10,6 +9,7 @@ import { RootState } from "../../redux/store";
 
 type MapStatePropsType = {
   dialogsPageData: DialogsStateType;
+  isAuth: boolean;
 };
 type MapDispatchPropsType = {
   sendMessage: () => void;
@@ -19,6 +19,7 @@ export type DialogsPagePropsType = MapStatePropsType & MapDispatchPropsType;
 
 const mapStateToProps = (state: RootState): MapStatePropsType => ({
   dialogsPageData: state.dialogsPage,
+  isAuth: state.auth.isAuth,
 });
 
 export const DialogsPageContainer = connect(mapStateToProps, {

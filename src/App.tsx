@@ -6,6 +6,7 @@ import { DialogsPageContainer } from "./components/DialogsPage/DialogsPageContai
 import UsersPageContainer from "./components/UsersPage/UsersPageContainer";
 import ProfilePageContainer from "./components/ProfilePage/ProfilePageContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import { Login } from "./components/Login";
 
 const App = () => (
   <div className="app-wrapper">
@@ -18,6 +19,7 @@ const App = () => (
         </Route>
         <Route path="messages/*" element={<DialogsPageContainer />} />
         <Route path="users" element={<UsersPageContainer />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </div>
   </div>
