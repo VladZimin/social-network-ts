@@ -3,13 +3,10 @@ import s from "./Dialogs.module.css";
 import Dialog from "./Dialog";
 import Message from "./Message";
 import { DialogsPagePropsType } from "./DialogsPageContainer";
-// @ts-ignore
-import { Navigate } from "react-router-dom";
 
 class DialogsPage extends React.Component<DialogsPagePropsType> {
   render() {
-    const { dialogsPageData, updateMessageText, sendMessage, isAuth } =
-      this.props;
+    const { dialogsPageData, updateMessageText, sendMessage } = this.props;
 
     const dialogsList = dialogsPageData.dialogsData.map((userObj, i) => (
       <Dialog key={i} {...userObj} />
@@ -24,9 +21,6 @@ class DialogsPage extends React.Component<DialogsPagePropsType> {
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
       updateMessageText(e.currentTarget.value);
     };
-    if (!isAuth) {
-      return <Navigate to={"/login"} />;
-    }
     return (
       <div className={s.dialogsWrapper}>
         <div className={s.dialogsList}>{dialogsList}</div>

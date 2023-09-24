@@ -9,6 +9,7 @@ import {
 } from "../../redux/reducers/usersReducer";
 import { Component } from "react";
 import { UsersPage } from "./index";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
   componentDidMount() {
@@ -66,9 +67,11 @@ const mapStateToProps = (state: RootState): UsersPageStateType => ({
   isFollowing: state.usersPage.isFollowing,
 });
 
-export default connect(mapStateToProps, {
-  setCurrentPage,
-  getUsersTC,
-  unfollowUsersTC,
-  followUsersTC,
-})(UsersPageContainer);
+export default withAuthRedirect(
+  connect(mapStateToProps, {
+    setCurrentPage,
+    getUsersTC,
+    unfollowUsersTC,
+    followUsersTC,
+  })(UsersPageContainer)
+);
