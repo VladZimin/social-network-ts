@@ -5,6 +5,7 @@ import { RootState } from "../../redux/store";
 import {
   getUserProfileTC,
   ProfileDataType,
+  updateProfileStatusTC,
 } from "../../redux/reducers/profileReducer";
 import { useParams } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
@@ -15,20 +16,28 @@ class ProfilePageContainer extends Component<
 > {
   componentDidMount() {
     let userId = this.props.params;
-    if (!userId) userId = "2";
+    if (!userId) userId = "19364";
     this.props.getUserProfileTC(userId);
   }
 
   render() {
-    return <ProfilePage profileData={this.props.profileData} />;
+    return (
+      <ProfilePage
+        profileData={this.props.profileData}
+        status={this.props.profileStatus}
+        updateStatus={this.props.updateProfileStatusTC}
+      />
+    );
   }
 }
 
 type MapStatePropsType = {
   profileData: ProfileDataType | null;
+  profileStatus: string;
 };
 type MapDispatchPropsType = {
   getUserProfileTC: (userId: string) => void;
+  updateProfileStatusTC: (status: string) => void;
 };
 
 export type ProfileContainerPropsType = MapStatePropsType &
@@ -36,6 +45,7 @@ export type ProfileContainerPropsType = MapStatePropsType &
 
 const mapStateToProps = (state: RootState): MapStatePropsType => ({
   profileData: state.profilePage.profileData,
+  profileStatus: state.profilePage.profileStatus,
 });
 
 const withRouter = (Component: typeof ProfilePageContainer) => {
@@ -49,6 +59,6 @@ const withRouter = (Component: typeof ProfilePageContainer) => {
 
 export default compose<ComponentType>(
   withAuthRedirect,
-  connect(mapStateToProps, { getUserProfileTC }),
+  connect(mapStateToProps, { getUserProfileTC, updateProfileStatusTC }),
   withRouter
 )(ProfilePageContainer);
