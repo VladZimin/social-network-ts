@@ -3,10 +3,12 @@ import {
   sendMessage,
   updateMessageText,
 } from "../../redux/reducers/dialogsReducer";
-import DialogsPage from "./index";
+import dialogsPage from "./index";
 import { connect } from "react-redux";
 import { RootState } from "../../redux/store";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
+import { ComponentType } from "react";
 
 type MapStatePropsType = {
   dialogsPageData: DialogsStateType;
@@ -21,9 +23,10 @@ const mapStateToProps = (state: RootState): MapStatePropsType => ({
   dialogsPageData: state.dialogsPage,
 });
 
-export const DialogsPageContainer = withAuthRedirect(
+export default compose<ComponentType>(
+  withAuthRedirect,
   connect(mapStateToProps, {
     sendMessage,
     updateMessageText,
-  })(DialogsPage)
-);
+  })
+)(dialogsPage);

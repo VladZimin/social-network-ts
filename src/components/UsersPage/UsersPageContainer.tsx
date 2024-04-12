@@ -7,9 +7,10 @@ import {
   unfollowUsersTC,
   UsersPageStateType,
 } from "../../redux/reducers/usersReducer";
-import { Component } from "react";
+import { Component, ComponentType } from "react";
 import { UsersPage } from "./index";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
   componentDidMount() {
@@ -22,29 +23,10 @@ class UsersPageContainer extends Component<UsersPageContainerType> {
   };
 
   render() {
-    const {
-      users,
-      pageSize,
-      totalUsersCount,
-      currentPage,
-      isFetching,
-      isFollowing,
-      unfollowUsersTC,
-      followUsersTC,
-    } = this.props;
+    const { setCurrentPage, getUsersTC, ...restProps } = this.props;
 
     return (
-      <UsersPage
-        users={users}
-        currentPage={currentPage}
-        totalUsersCount={totalUsersCount}
-        pageSize={pageSize}
-        isFetching={isFetching}
-        changePageHandler={this.changePageHandler}
-        isFollowing={isFollowing}
-        unfollowUsersTC={unfollowUsersTC}
-        followUsersTC={followUsersTC}
-      />
+      <UsersPage changePageHandler={this.changePageHandler} {...restProps} />
     );
   }
 }
@@ -67,11 +49,12 @@ const mapStateToProps = (state: RootState): UsersPageStateType => ({
   isFollowing: state.usersPage.isFollowing,
 });
 
-export default withAuthRedirect(
+export default compose<ComponentType>(
   connect(mapStateToProps, {
     setCurrentPage,
     getUsersTC,
     unfollowUsersTC,
     followUsersTC,
-  })(UsersPageContainer)
-);
+  }),
+  withAuthRedirect
+)(UsersPageContainer);

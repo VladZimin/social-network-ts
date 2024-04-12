@@ -3,6 +3,7 @@ import s from "./UsersPage.module.css";
 import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
 import { UsersPageStateType } from "../../redux/reducers/usersReducer";
+import defaultPhoto from "../../assets/deafaultPhotopng.png";
 
 type UsersPageType = UsersPageStateType & {
   changePageHandler: (pageNumber: number) => void;
@@ -10,7 +11,7 @@ type UsersPageType = UsersPageStateType & {
   followUsersTC: (userId: number) => void;
 };
 
-const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
+//const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
 
 export const UsersPage: FC<UsersPageType> = ({
   currentPage,
@@ -41,13 +42,6 @@ export const UsersPage: FC<UsersPageType> = ({
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
       if (u.followed) {
-        // setIsFollowing(true, u.id);
-        // usersAPI.unfollowUser(u.id).then((data) => {
-        //   if (data.resultCode === 0) {
-        //     toggleFollow(u.id);
-        //   }
-        //   setIsFollowing(false, u.id);
-        // });
         unfollowUsersTC(u.id);
       } else {
         followUsersTC(u.id);
