@@ -2,8 +2,11 @@ import { Dispatch } from "redux";
 import { authAPI } from "../../api/api";
 
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
+const LOGIN_USER = "LOGIN_USER";
 
-export type AuthActionsType = ReturnType<typeof setAuthUserData>;
+export type AuthActionsType =
+  | ReturnType<typeof setAuthUserData>
+  | ReturnType<typeof loginUser>;
 
 export type AuthDataType = {
   id: null | number;
@@ -31,6 +34,12 @@ export const authReducer = (
         isAuth: true,
       };
     }
+    case LOGIN_USER: {
+      return {
+        ...state,
+        isAuth: action.isAuth,
+      };
+    }
     default:
       return state;
   }
@@ -41,6 +50,11 @@ export const setAuthUserData = (payload: AuthDataType) =>
     type: SET_AUTH_USER_DATA,
     payload,
   } as const);
+export const loginUser = (isAuth: boolean) =>
+  ({
+    type: LOGIN_USER,
+    isAuth,
+  } as const);
 
 export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
   authAPI.getAuthUserData().then((data) => {
@@ -48,4 +62,18 @@ export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
       dispatch(setAuthUserData(data.data));
     }
   });
+};
+export const loginUserTC = (formData: FormDataType) => (dispatch: Dispatch) => {
+  authAPI.login(formData).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(loginUser(true));
+    }
+  });
+};
+
+type FormDataType = {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+  captcha?: boolean;
 };
