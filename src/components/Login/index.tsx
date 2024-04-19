@@ -1,10 +1,8 @@
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { RootState } from "../../redux/store";
 import { Navigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { loginUserTC } from "../../redux/reducers/authReducer";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+import { login } from "../../redux/reducers/authReducer";
 
 //Xk2CBpZfXaMPh!f
 
@@ -37,8 +35,12 @@ const validate = (values: FormValuesType) => {
   return errors;
 };
 
-function Login({ isAuth }: ReturnType<typeof mapStateToProps>) {
-  const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>();
+function Login({
+  isAuth,
+  loginUserTC,
+}: ReturnType<typeof mapStateToProps> & {
+  loginUserTC: (formData: FormValuesType) => void;
+}) {
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -47,7 +49,7 @@ function Login({ isAuth }: ReturnType<typeof mapStateToProps>) {
     },
     validate,
     onSubmit: (values) => {
-      dispatch(loginUserTC(values));
+      loginUserTC(values);
       formik.resetForm();
     },
   });
@@ -95,4 +97,4 @@ function Login({ isAuth }: ReturnType<typeof mapStateToProps>) {
   );
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { loginUserTC: login })(Login);

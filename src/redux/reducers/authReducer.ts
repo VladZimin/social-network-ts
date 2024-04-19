@@ -1,12 +1,11 @@
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 import { authAPI } from "../../api/api";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../store";
 
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
-const LOGIN_USER = "LOGIN_USER";
-
-export type AuthActionsType =
-  | ReturnType<typeof setAuthUserData>
-  | ReturnType<typeof loginUser>;
+// Xk2CBpZfXaMPh!f
+export type AuthActionsType = ReturnType<typeof setAuthUserData>;
 
 export type AuthDataType = {
   id: null | number;
@@ -30,13 +29,7 @@ export const authReducer = (
   switch (action.type) {
     case SET_AUTH_USER_DATA: {
       return {
-        ...action.payload,
-        isAuth: true,
-      };
-    }
-    case LOGIN_USER: {
-      return {
-        ...state,
+        ...action.userData,
         isAuth: action.isAuth,
       };
     }
@@ -45,31 +38,42 @@ export const authReducer = (
   }
 };
 
-export const setAuthUserData = (payload: AuthDataType) =>
+export const setAuthUserData = (userData: AuthDataType, isAuth: boolean) =>
   ({
     type: SET_AUTH_USER_DATA,
-    payload,
-  } as const);
-export const loginUser = (isAuth: boolean) =>
-  ({
-    type: LOGIN_USER,
+    userData,
     isAuth,
   } as const);
 
 export const getAuthUserDataTC = () => (dispatch: Dispatch) => {
   authAPI.getAuthUserData().then((data) => {
     if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data));
+      dispatch(setAuthUserData(data.data, true));
     }
   });
 };
-export const loginUserTC = (formData: FormDataType) => (dispatch: Dispatch) => {
-  authAPI.login(formData).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(loginUser(true));
-    }
-  });
-};
+export const login =
+  (formData: FormDataType): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (dispatch) => {
+    authAPI.login(formData).then((data) => {
+      if (data.resultCode === 0) {
+        dispatch(getAuthUserDataTC());
+      }
+    });
+  };
+export const logout =
+  (): ThunkAction<void, RootState, unknown, AnyAction> => (dispatch) => {
+    authAPI.logout().then((data) => {
+      if (data.resultCode === 0) {
+        const userData: AuthDataType = {
+          id: null,
+          login: null,
+          email: null,
+        };
+        dispatch(setAuthUserData(userData, false));
+      }
+    });
+  };
 
 type FormDataType = {
   email: string;
