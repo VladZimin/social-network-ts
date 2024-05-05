@@ -57,6 +57,7 @@ export const login =
   (dispatch) => {
     authAPI.login(formData).then((data) => {
       if (data.resultCode === 0) {
+        console.log(data);
         dispatch(getAuthUserDataTC());
       }
     });

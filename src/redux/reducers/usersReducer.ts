@@ -32,7 +32,7 @@ const initialState = {
   users: [] as UserDataType[],
   currentPage: 1,
   pageSize: 10,
-  totalUsersCount: 100,
+  totalUsersCount: 0,
   isFetching: false,
   isFollowing: [] as number[],
 };
@@ -108,6 +108,7 @@ export const getUsersTC =
     dispatch(setIsFetching(true));
     usersAPI.getUsers(currentPage, pageSize).then((data) => {
       dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
       dispatch(setIsFetching(false));
     });
   };

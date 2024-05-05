@@ -4,14 +4,13 @@ import loader from "../../assets/loader.svg";
 import { NavLink } from "react-router-dom";
 import { UsersPageStateType } from "../../redux/reducers/usersReducer";
 import defaultPhoto from "../../assets/deafaultPhotopng.png";
+import Paginator from "../Paginator/Paginator";
 
 type UsersPageType = UsersPageStateType & {
   changePageHandler: (pageNumber: number) => void;
   unfollowUsersTC: (userId: number) => void;
   followUsersTC: (userId: number) => void;
 };
-
-//const defaultPhoto = "https://cdn-icons-png.flaticon.com/512/663/663097.png";
 
 export const UsersPage: FC<UsersPageType> = ({
   currentPage,
@@ -24,21 +23,6 @@ export const UsersPage: FC<UsersPageType> = ({
   unfollowUsersTC,
   followUsersTC,
 }) => {
-  const pages: number[] = [];
-  const pagesCount = Math.ceil(totalUsersCount / pageSize);
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
-
-  const renderedPages = pages.map((p) => (
-    <span
-      onClick={() => changePageHandler(p)}
-      className={`${s.pages} ${currentPage === p ? s.selectedPage : ""}`}
-      key={p}
-    >
-      {p}
-    </span>
-  ));
   const renderedUsers = users.map((u) => {
     const toggleFollowHandler = () => {
       if (u.followed) {
@@ -72,7 +56,14 @@ export const UsersPage: FC<UsersPageType> = ({
 
   return (
     <>
-      <div className={s.pagesBlock}>{renderedPages}</div>
+      <div className={s.pagesBlock}>
+        <Paginator
+          currentPage={currentPage}
+          pageSize={pageSize}
+          totalUsersCount={totalUsersCount}
+          changePageHandler={changePageHandler}
+        />
+      </div>
       {isFetching ? <img src={loader} alt={"Loader"} /> : renderedUsers}
     </>
   );
