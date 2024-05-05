@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
@@ -7,22 +7,44 @@ import UsersPageContainer from "./components/UsersPage/UsersPageContainer";
 import ProfilePageContainer from "./components/ProfilePage/ProfilePageContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login";
+import { connect } from "react-redux";
+import { initializeApp } from "./redux/reducers/appReducer";
+import { RootState } from "./redux/store";
+import loader from "./assets/loader.svg";
 
-const App = () => (
-  <div className="app-wrapper">
-    <HeaderContainer />
-    <Navbar />
-    <div className="app-content">
-      <Routes>
-        <Route path="profile" element={<ProfilePageContainer />}>
-          <Route path=":userId" element={<ProfilePageContainer />} />
-        </Route>
-        <Route path="messages/*" element={<DialogsPageContainer />} />
-        <Route path="users" element={<UsersPageContainer />} />
-        <Route path="login" element={<Login />} />
-      </Routes>
+type AppPropsType = {
+  isInitialized: boolean;
+  initializeApp: () => void;
+};
+
+const App = ({ isInitialized, initializeApp }: AppPropsType) => {
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
+  if (!isInitialized) {
+    return <img src={loader} alt="Loader" />;
+  }
+  return (
+    <div className="app-wrapper">
+      <HeaderContainer />
+      <Navbar />
+      <div className="app-content">
+        <Routes>
+          <Route path="profile" element={<ProfilePageContainer />}>
+            <Route path=":userId" element={<ProfilePageContainer />} />
+          </Route>
+          <Route path="messages/*" element={<DialogsPageContainer />} />
+          <Route path="users" element={<UsersPageContainer />} />
+          <Route path="login" element={<Login />} />
+        </Routes>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-export default App;
+const mapStateToProps = (state: RootState) => ({
+  isInitialized: state.app.isInitialized,
+});
+
+export default connect(mapStateToProps, { initializeApp })(App);

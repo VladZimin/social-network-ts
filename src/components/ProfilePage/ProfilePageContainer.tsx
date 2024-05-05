@@ -16,8 +16,8 @@ class ProfilePageContainer extends Component<
 > {
   componentDidMount() {
     let userId = this.props.params;
-    if (!userId) userId = "19364";
-    this.props.getUserProfileTC(userId);
+    if (!userId) userId = this.props.authorizedUserId?.toString();
+    if (userId) this.props.getUserProfileTC(userId);
   }
 
   render() {
@@ -34,6 +34,7 @@ class ProfilePageContainer extends Component<
 type MapStatePropsType = {
   profileData: ProfileDataType | null;
   profileStatus: string;
+  authorizedUserId: number | null;
 };
 type MapDispatchPropsType = {
   getUserProfileTC: (userId: string) => void;
@@ -46,6 +47,7 @@ export type ProfileContainerPropsType = MapStatePropsType &
 const mapStateToProps = (state: RootState): MapStatePropsType => ({
   profileData: state.profilePage.profileData,
   profileStatus: state.profilePage.profileStatus,
+  authorizedUserId: state.auth.id,
 });
 
 const withRouter = (Component: typeof ProfilePageContainer) => {

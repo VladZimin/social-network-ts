@@ -31,7 +31,6 @@ const validate = (values: FormValuesType) => {
   } else if (values.password.length <= 6) {
     errors.password = "Must be more than 6 characters";
   }
-  console.log(errors);
   return errors;
 };
 
