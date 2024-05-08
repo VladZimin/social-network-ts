@@ -68,7 +68,9 @@ function Login({
           onChange={formik.handleChange}
           value={formik.values.email}
         />
-        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+        {formik.errors.email && formik.touched.email ? (
+          <div>{formik.errors.email}</div>
+        ) : null}
       </div>
       <div>
         <label htmlFor="password">Password</label>
@@ -79,7 +81,9 @@ function Login({
           onChange={formik.handleChange}
           value={formik.values.password}
         />
-        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
+        {formik.errors.password && formik.touched.password ? (
+          <div>{formik.errors.password}</div>
+        ) : null}
       </div>
       <div>
         <label htmlFor="rememberMe">Запомнить</label>

@@ -5,12 +5,14 @@ import { RootState } from "../../redux/store";
 import {
   getUserProfileTC,
   ProfileDataType,
+  updateProfileDataTC,
   updateProfilePhotoTC,
   updateProfileStatusTC,
 } from "../../redux/reducers/profileReducer";
 import { useParams } from "react-router-dom";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import { ProfileFormDataType } from "./ProfileInfo/ProfileFormData";
 
 class ProfilePageContainer extends Component<
   ProfileContainerPropsType & { params: string | undefined }
@@ -29,6 +31,7 @@ class ProfilePageContainer extends Component<
         updateStatus={this.props.updateProfileStatusTC}
         isOwner={!this.props.params}
         savePhoto={this.props.updateProfilePhotoTC}
+        updateProfile={this.props.updateProfileDataTC}
       />
     );
   }
@@ -43,6 +46,7 @@ type MapDispatchPropsType = {
   getUserProfileTC: (userId: string) => void;
   updateProfileStatusTC: (status: string) => void;
   updateProfilePhotoTC: (file: File) => void;
+  updateProfileDataTC: (data: ProfileFormDataType) => void;
 };
 
 export type ProfileContainerPropsType = MapStatePropsType &
@@ -69,6 +73,7 @@ export default compose<ComponentType>(
     getUserProfileTC,
     updateProfileStatusTC,
     updateProfilePhotoTC,
+    updateProfileDataTC,
   }),
   withRouter
 )(ProfilePageContainer);

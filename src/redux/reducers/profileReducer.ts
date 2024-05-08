@@ -1,5 +1,8 @@
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 import { profilesAPI } from "../../api/api";
+import { ProfileFormDataType } from "../../components/ProfilePage/ProfileInfo/ProfileFormData";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../store";
 
 const ADD_POST = "ADD_POST";
 const UPDATE_POST_TEXT = "UPDATE_POST_TEXT";
@@ -13,6 +16,7 @@ export type ProfileActionsType =
   | ReturnType<typeof setUserProfile>
   | ReturnType<typeof setUserStatus>
   | ReturnType<typeof setProfilePhoto>;
+
 export type PostDataType = {
   id: number;
   postText: string;
@@ -130,6 +134,33 @@ export const updateProfilePhotoTC = (file: File) => (dispatch: Dispatch) => {
     dispatch(setProfilePhoto(data.data.photos));
   });
 };
+export const updateProfileDataTC =
+  (
+    data: ProfileFormDataType
+  ): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (dispatch, getState) => {
+    const userId = getState().profilePage.profileData.userId;
+    const updateData: Omit<ProfileDataType, "photos"> = {
+      userId,
+      aboutMe: data.aboutMe,
+      fullName: data.fullName,
+      lookingForAJob: data.lookingForAJob,
+      lookingForAJobDescription: data.description,
+      contacts: {
+        facebook: data.facebook,
+        github: data.github,
+        instagram: data.instagram,
+        vk: data.vk,
+        twitter: data.twitter,
+        website: data.website,
+        mainLink: data.mainLink,
+        youtube: data.youtube,
+      },
+    };
+    profilesAPI.updateProfileData(updateData).then(() => {
+      dispatch(getUserProfileTC(userId.toString()));
+    });
+  };
 export const updateProfileStatusTC =
   (status: string) => (dispatch: Dispatch) => {
     profilesAPI.updateProfileStatus(status).then((res) => {
