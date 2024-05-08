@@ -28,8 +28,8 @@ const validate = (values: FormValuesType) => {
   }
   if (!values.password) {
     errors.password = "Required";
-  } else if (values.password.length <= 6) {
-    errors.password = "Must be more than 6 characters";
+  } else if (values.password.length <= 3) {
+    errors.password = "Must be more than 4 characters";
   }
   return errors;
 };

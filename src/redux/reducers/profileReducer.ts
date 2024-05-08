@@ -5,14 +5,14 @@ const ADD_POST = "ADD_POST";
 const UPDATE_POST_TEXT = "UPDATE_POST_TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_PROFILE_STATUS = "SET_PROFILE_STATUS";
-const UPDATE_PROFILE_STATUS = "UPDATE_PROFILE_STATUS";
+const SET_PROFILE_PHOTO = "SET_PROFILE_PHOTO";
 
 export type ProfileActionsType =
   | ReturnType<typeof addPost>
   | ReturnType<typeof updatePostText>
   | ReturnType<typeof setUserProfile>
-  | ReturnType<typeof setUserStatus>;
-
+  | ReturnType<typeof setUserStatus>
+  | ReturnType<typeof setProfilePhoto>;
 export type PostDataType = {
   id: number;
   postText: string;
@@ -43,7 +43,7 @@ export type ProfileDataType = {
 export type ProfileStateType = {
   postsData: PostDataType[];
   newPostText: string;
-  profileData: ProfileDataType | null;
+  profileData: ProfileDataType;
   profileStatus: string;
 };
 const initialState: ProfileStateType = {
@@ -53,7 +53,7 @@ const initialState: ProfileStateType = {
     { id: 3, postText: "Its OK!!", likesCount: 68 },
   ],
   newPostText: "",
-  profileData: null,
+  profileData: {} as ProfileDataType,
   profileStatus: "",
 };
 
@@ -79,6 +79,11 @@ export const profileReducer = (
       return { ...state, profileData: action.payload };
     case SET_PROFILE_STATUS:
       return { ...state, profileStatus: action.status };
+    case SET_PROFILE_PHOTO:
+      return {
+        ...state,
+        profileData: { ...state.profileData, photos: action.photos },
+      };
     default:
       return state;
   }
@@ -103,9 +108,10 @@ export const setUserStatus = (status: string) =>
     type: SET_PROFILE_STATUS,
     status,
   } as const);
-export const updateProfileStatus = () =>
+export const setProfilePhoto = (photos: { small: string; large: string }) =>
   ({
-    type: UPDATE_PROFILE_STATUS,
+    type: SET_PROFILE_PHOTO,
+    photos,
   } as const);
 
 export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
@@ -118,6 +124,11 @@ export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
     .then((res) => {
       dispatch(setUserStatus(res));
     });
+};
+export const updateProfilePhotoTC = (file: File) => (dispatch: Dispatch) => {
+  profilesAPI.updateProfilePhoto(file).then((data) => {
+    dispatch(setProfilePhoto(data.data.photos));
+  });
 };
 export const updateProfileStatusTC =
   (status: string) => (dispatch: Dispatch) => {

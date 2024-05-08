@@ -9,7 +9,6 @@ import {
 } from "../../redux/reducers/usersReducer";
 import { Component, ComponentType } from "react";
 import { UsersPage } from "./index";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
 
 class UsersPageContainer extends Component<UsersPageContainerType> {
@@ -55,6 +54,5 @@ export default compose<ComponentType>(
     getUsersTC,
     unfollowUsersTC,
     followUsersTC,
-  }),
-  withAuthRedirect
+  })
 )(UsersPageContainer);

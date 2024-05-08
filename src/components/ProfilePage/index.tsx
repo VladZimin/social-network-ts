@@ -10,12 +10,16 @@ export type ProfilePageType = {
   profileData: ProfileDataType | null;
   status: string;
   updateStatus: (status: string) => void;
+  isOwner: boolean;
+  savePhoto: (file: File) => void;
 };
 
 export const ProfilePage: FC<ProfilePageType> = ({
   profileData,
   status,
   updateStatus,
+  isOwner,
+  savePhoto,
 }) => {
   return (
     <>
@@ -27,6 +31,8 @@ export const ProfilePage: FC<ProfilePageType> = ({
           profileData={profileData}
           status={status}
           updateStatus={updateStatus}
+          isOwner={isOwner}
+          savePhoto={savePhoto}
         />
         <MyPostsContainer />
       </div>
