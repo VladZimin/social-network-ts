@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import DialogsPageContainer from "./components/DialogsPage/DialogsPageContainer";
 import UsersPageContainer from "./components/UsersPage/UsersPageContainer";
 import ProfilePageContainer from "./components/ProfilePage/ProfilePageContainer";
@@ -37,6 +37,7 @@ const App = ({ isInitialized, initializeApp }: AppPropsType) => {
           <Route path="messages/*" element={<DialogsPageContainer />} />
           <Route path="users" element={<UsersPageContainer />} />
           <Route path="login" element={<Login />} />
+          <Route path="/" element={<Navigate to="/profile" />} />
         </Routes>
       </div>
     </div>
