@@ -31,13 +31,15 @@ const App = ({ isInitialized, initializeApp }: AppPropsType) => {
       <Navbar />
       <div className="app-content">
         <Routes>
+          <Route path="/" element={<Navigate to="/profile" />} />
           <Route path="profile" element={<ProfilePageContainer />}>
             <Route path=":userId" element={<ProfilePageContainer />} />
           </Route>
           <Route path="messages/*" element={<DialogsPageContainer />} />
           <Route path="users" element={<UsersPageContainer />} />
           <Route path="login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/profile" />} />
+          <Route path="/404" element={<div>404: Page Not Found</div>} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
       </div>
     </div>
