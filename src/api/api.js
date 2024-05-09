@@ -49,13 +49,22 @@ export const profilesAPI = {
 };
 
 export const authAPI = {
-  getAuthUserData() {
-    return instance.get(`auth/me`).then((res) => res.data);
+  async getAuthUserData() {
+    let res = await instance.get(`auth/me`);
+    return await res.data;
   },
-  login(formData) {
-    return instance.post(`auth/login`, formData).then((res) => res.data);
+  async login(formData) {
+    let res = await instance.post(`auth/login`, formData);
+    return await res.data;
   },
-  logout() {
-    return instance.delete(`auth/login`).then((res) => res.data);
+  async logout() {
+    let res = await instance.delete(`auth/login`);
+    return await res.data;
+  },
+};
+export const securityApi = {
+  async getCaptchaURL() {
+    let res = await instance.get(`security/get-captcha-url`);
+    return await res.data;
   },
 };

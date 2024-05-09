@@ -8,11 +8,13 @@ import { login } from "../../redux/reducers/authReducer";
 
 const mapStateToProps = (state: RootState) => ({
   isAuth: state.auth.isAuth,
+  captcha: state.auth.captchaURL,
 });
 
 interface FormErrorsType {
   email: string;
   password: string;
+  captcha: string;
 }
 
 interface FormValuesType extends FormErrorsType {
@@ -36,6 +38,7 @@ const validate = (values: FormValuesType) => {
 
 function Login({
   isAuth,
+  captcha,
   loginUserTC,
 }: ReturnType<typeof mapStateToProps> & {
   loginUserTC: (formData: FormValuesType) => void;
@@ -45,11 +48,11 @@ function Login({
       email: "",
       password: "",
       rememberMe: false,
+      captcha: "",
     },
     validate,
     onSubmit: (values) => {
       loginUserTC(values);
-      formik.resetForm();
     },
   });
 
@@ -95,6 +98,22 @@ function Login({
           checked={formik.values.rememberMe}
         />
       </div>
+      {captcha && (
+        <div>
+          <img src={captcha} alt="Captcha" />
+          <br />
+          <input
+            id="captcha"
+            name="captcha"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.captcha}
+          />
+          {formik.errors.captcha && formik.touched.captcha ? (
+            <div>{formik.errors.captcha}</div>
+          ) : null}
+        </div>
+      )}
       <button type="submit">Submit</button>
     </form>
   );
